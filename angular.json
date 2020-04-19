@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "whosmakingtea-firebase"
+    }
+  },
+  "defaultProject": "whosmakingtea-firebase",
+  "cli": {
+    "analytics": "2e4be446-ac9b-4b57-8bf9-ae36695ecd8e"
+  }
 }

@@ -1,0 +1,17 @@
+<loginheader (hidePage)="onHidePage($event)"></loginheader>
+<section class="section-home"> 
+    
+    <div class="content-wrap" [ngClass]="{ 'fadeOutUp': hidePage }">
+        
+        <div class="tagline-wrap" [ngClass]="{ 'fadeOutUp': hideTagline, 'fadeInDown': !hideTagline }">
+            <h1>who's making tea?</h1>
+            <div class="tagline">The perfect tool for people picking</div>
+        </div>
+
+        <div class="picker-wrap">
+            <picker (hideTagline)="onHideTagline($event)"></picker>
+        </div>
+
+    </div>
+    
+</section>

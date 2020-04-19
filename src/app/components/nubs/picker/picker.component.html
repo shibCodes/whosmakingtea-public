@@ -1,0 +1,35 @@
+<section class="picker">
+
+    <p class="instructions">{{instructionMessage}}</p>
+
+    <div class="picker-wrap" [ngClass]="{'hidden': hidePicker}">
+
+        <div class="people-wrap" [perfectScrollbar]>
+
+                <div class="person" *ngFor="let person of allPeople; let i = index">
+                    <input #input type="text" class="name" placeholder="enter name..." [(ngModel)]="person.name" (ngModelChange)="checkButtonState()"/>
+                    <i-feather name="x-circle" class="icon" (click)="removePerson(i)"></i-feather>
+                </div>
+
+        </div>
+
+        <button class="butt-add butt-general" (click)="addPerson()">Add <i-feather name="plus-circle" class="icon"></i-feather></button> 
+        <button class="butt-pick butt-general" [ngClass]="{ 'toggleUp': pickPersonVisible }" (click)="pickPerson()" [disabled]="pickPersonDisabled">Pick!</button>
+
+    </div>
+    
+    <loadyspin [ngClass]="{'hidden': hideLoady}"></loadyspin>
+
+    <div class="selection-wrap" [hidden]="hideSelection">
+
+        <div class="selected-name">{{selectedPerson}}</div>
+        
+        <div class="button-wrap">
+            <button class="butt-pickagain butt-general" (click)="pickPerson()">Pick again <i-feather name="refresh-cw" class="icon"></i-feather></button>
+            <button class="butt-addmore butt-general" (click)="addMorePeople()">Add more people <i-feather name="plus-circle" class="icon"></i-feather></button>
+        </div>
+        
+    </div>
+
+
+</section>

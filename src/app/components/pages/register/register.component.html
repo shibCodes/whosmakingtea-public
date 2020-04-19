@@ -1,0 +1,29 @@
+<loginheader (hidePage)="onHideTagline($event)"></loginheader>
+
+<section class="section-register"> 
+        
+    <div class="content-wrap" [ngClass]="{ 'fadeOutUp': hideRegister || hideTagline, 'fadeInDown': !hideRegister && !hideTagline }">
+
+        <h1>Register</h1>
+        <p>Registering allows you to create and save multiple lists of people. We'll also keep track of who's been picked so they'll have less of a chance of being picked next time!</p>
+
+        <div class="error" (hidden)="showError" [ngClass]="{ 'toggleUp': showError }"><i-feather name="alert-circle" class="icon"></i-feather><p>{{errorMessage}}</p></div>
+        
+        <div class="input-wrap">
+            <div class="field">
+                <input #email type="text" class="name" placeholder="email..." [(ngModel)]="user.email" (ngModelChange)="checkButtonState()"/>
+            </div>
+            <div class="field">
+                <input #password type="password" class="password" placeholder="password..." [(ngModel)]="user.password" (ngModelChange)="checkButtonState()"/>
+            </div>
+            <div class="field">
+                <input #passwordconfirm type="password" class="password" [ngClass]="{'dont-match': !passwordsMatch}" placeholder="confirm password..." [(ngModel)]="confirmPassword" (ngModelChange)="checkButtonState()"/>
+            </div>
+        </div>
+
+        <button class="butt-general butt-register" (click)="register()" [disabled]="registerDisabled">Register!</button>
+        <button class="butt-general butt-cancel" (click)="cancel()">Cancel</button>
+
+    </div>
+    
+</section>
