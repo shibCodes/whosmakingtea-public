@@ -1,6 +1,7 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
 	selector: 'login-page',
@@ -8,22 +9,33 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 	styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 	@ViewChild("email") emailField: ElementRef;
+	loginForm: FormGroup
 	hideTagline: boolean = false;
 	hideLogin: boolean = false;
-	loginDisabled: boolean = true;
 	errorMessage: string;
 	showError: boolean = false;
-	user = {
-		email: "",
-		password: ""
-	}
+	isLoading: boolean = false;
 
 	constructor(
 		private router: Router,
-		private firebaseService: FirebaseService
+		private firebaseService: FirebaseService,
+		private formBuilder: FormBuilder
 	) { }
+
+	ngOnInit() {
+		this.loginForm = this.formBuilder.group({
+			email: ['', [
+				Validators.required,
+				Validators.pattern("[^ @]*@[^ @]*")
+			]],
+			password: ['', [
+				Validators.required,
+				Validators.minLength(4)
+			]]
+		});
+	}
 
 	ngAfterViewInit() {
 
@@ -36,12 +48,23 @@ export class LoginComponent {
 
 	login() {
 
-		this.showError = false;
+		if (this.loginForm.valid) {
 
-		this.firebaseService.loginUser(this.user)
-			.then((res) => {
-				console.log(res);
-			});
+			this.showError = false;
+			this.isLoading = true;
+
+			let user = {
+				email: this.loginForm.value.email,
+				password: this.loginForm.value.password
+			}
+	
+			this.firebaseService.loginUser(user)
+				.then((res) => {
+					console.log(res);
+					this.isLoading = false;
+				});
+
+		}
 
 		/*this.apiService.loginUser(this.user)
 			.then(this.goToDashboard.bind(this));*/
@@ -59,18 +82,6 @@ export class LoginComponent {
 
 	}
 
-	checkButtonState() {
-
-		let notFilledOut = false;
-
-		let username = this.user.email;
-		let password = this.user.password;
-
-		(username == "" || password == "") ? notFilledOut = true : notFilledOut = false;
-
-		(!notFilledOut) ? this.loginDisabled = false : this.loginDisabled = true;
-
-	}
 
 	onHideTagline(hideTagline) {
 		this.hideTagline = hideTagline;
@@ -88,7 +99,7 @@ export class LoginComponent {
 			//this.apiService.setAuthToken(res.auth_token);
 			// local storage set item in promise
 			// .then(go to dashboard)
-			localStorage.setItem("username", this.user.email);
+			//localStorage.setItem("username", this.user.email);
 			this.router.navigate(['dashboard']);
 		}
 
