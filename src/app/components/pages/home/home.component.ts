@@ -1,8 +1,7 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PickerComponent } from '../../nubs/picker/picker.component';
-//import { LoginHeaderComponent } from '../../nubs/loginheader/loginheader.component';
-//import { APIService } from '../../../services/api.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
 	selector: 'home-page',
@@ -12,19 +11,18 @@ import { PickerComponent } from '../../nubs/picker/picker.component';
 
 export class HomeComponent implements AfterViewInit {
 	@ViewChild(PickerComponent) picker: PickerComponent;
-	//@ViewChild(LoginHeaderComponent) loginheader: LoginHeaderComponent;
 	hideTagline: boolean = false;
 	hidePage: boolean = false;
 
 	constructor(
 		private router: Router,
-		//private apiService: APIService
+		private firebaseService: FirebaseService
 	) { }
 
     ngAfterViewInit() {
 		console.log("yeee");
        	console.log(this.picker);
-       // this.apiService.checkAuthToken();      
+       	this.firebaseService.checkAuthState();   
 
 	}
 	

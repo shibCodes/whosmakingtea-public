@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoadyspinComponent } from './loadyspin.component';
+import { LoadySpinComponent } from './loadyspin.component';
 
-describe('LoadyspinComponent', () => {
-  let component: LoadyspinComponent;
-  let fixture: ComponentFixture<LoadyspinComponent>;
+describe('LoadySpinComponent', () => {
+  let component: LoadySpinComponent;
+  let fixture: ComponentFixture<LoadySpinComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoadyspinComponent ]
+      declarations: [ LoadySpinComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoadyspinComponent);
+    fixture = TestBed.createComponent(LoadySpinComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
