@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
 	hideLogin: boolean = false;
 	errorMessage: string;
 	showError: boolean = false;
+	isLoading: boolean = false;
 
 	constructor(
 		private router: Router,
@@ -50,6 +51,7 @@ export class LoginComponent implements OnInit {
 		if (this.loginForm.valid) {
 
 			this.showError = false;
+			this.isLoading = true;
 
 			let user = {
 				email: this.loginForm.value.email,
@@ -59,6 +61,7 @@ export class LoginComponent implements OnInit {
 			this.firebaseService.loginUser(user)
 				.then((res) => {
 					console.log(res);
+					this.isLoading = false;
 				});
 
 		}
