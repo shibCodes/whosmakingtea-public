@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegisterComponent } from './register.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FirebaseService } from '../../../services/firebase.service';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -8,7 +10,9 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegisterComponent ]
+      imports: [RouterTestingModule],
+      declarations: [ RegisterComponent ],
+      providers: [ FirebaseService ]
     })
     .compileComponents();
   }));

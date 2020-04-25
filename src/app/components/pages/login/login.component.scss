@@ -38,6 +38,13 @@
         font-size: 1.125em;
     }
 
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
     .input-wrap {
         max-width: 250px;
 
