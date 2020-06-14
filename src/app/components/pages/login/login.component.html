@@ -1,4 +1,4 @@
-<loginheader (hidePage)="onHideTagline($event)"></loginheader>
+<loginheader (hidePage)="onHideTagline($event)" [fadeAway]="hideHeader"></loginheader>
 
 <section class="section-login">
 
@@ -16,16 +16,15 @@
             </div>
 
             <div class="input-wrap">
-
                 <div class="field">
-                    <input #email type="text" class="name" placeholder="email..." formControlName="email"/>
+                    <input #email type="email" class="name" placeholder="email..." formControlName="email" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
                 </div>
                 <div class="field">
-                    <input #password type="password" class="password" placeholder="password..." formControlName="password"/>
+                    <input #password type="password" class="password" placeholder="password..." formControlName="password" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
                 </div>
             </div>
 
-            <button class="butt-general butt-register" (click)="login()" [disabled]="!loginForm.valid">Login!</button>
+            <button type="submit" class="butt-general butt-register" (click)="login()" [disabled]="!loginForm.valid">Login!</button>
             <button class="butt-general butt-cancel" (click)="cancel()">Cancel</button>
         
         </form>

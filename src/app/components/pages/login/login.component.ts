@@ -11,9 +11,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export class LoginComponent implements OnInit {
 	@ViewChild("email") emailField: ElementRef;
-	loginForm: FormGroup
+	loginForm: FormGroup;
 	hideTagline: boolean = false;
 	hideLogin: boolean = false;
+	hideHeader: boolean = false;
 	errorMessage: string;
 	showError: boolean = false;
 	isLoading: boolean = false;
@@ -35,15 +36,6 @@ export class LoginComponent implements OnInit {
 				Validators.minLength(4)
 			]]
 		});
-	}
-
-	ngAfterViewInit() {
-
-		let focusTimeout = setTimeout(() =>{
-			this.emailField.nativeElement.focus();
-			clearTimeout(focusTimeout);
-		}, 300);
-
 	}
 
 	login() {
@@ -83,8 +75,12 @@ export class LoginComponent implements OnInit {
 	}
 
 
-	onHideTagline(hideTagline) {
+	onHideTagline(hideTagline: boolean) {
 		this.hideTagline = hideTagline;
+	}
+
+	formFocus(focussed: boolean) {
+		this.hideHeader = focussed;
 	}
 
 	private goToDashboard(res) {

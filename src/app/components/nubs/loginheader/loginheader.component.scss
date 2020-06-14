@@ -28,8 +28,10 @@ header {
     }
 
     &.fade-away {
-        opacity: 0;
-        pointer-events: none;
+        @media all and (max-width: 768px) {
+            opacity: 0;
+            pointer-events: none;
+        }     
     }
     
 }
