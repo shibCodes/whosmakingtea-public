@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
 			this.isLoading = true;
 
 			let user:WMTUser = {
+				name: "",
 				email: this.loginForm.value.email,
 				password: this.loginForm.value.password
 			}
