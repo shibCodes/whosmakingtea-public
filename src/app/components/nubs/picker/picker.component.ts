@@ -1,4 +1,4 @@
-import { Component, ViewChildren, Output, EventEmitter, QueryList, Input, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChildren, Output, EventEmitter, QueryList, Input, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 import { Person } from 'src/app/core/Person';
 
 @Component({
@@ -98,6 +98,15 @@ export class PickerComponent implements AfterViewInit {
 		}
 
 		(!notFilledOut) ? this.pickPersonDisabled = false : this.pickPersonDisabled = true;
+
+	}
+
+	onKey(event: KeyboardEvent) {
+
+		// 13 = Enter
+		if (event.keyCode === 13) {
+			this.addPerson();
+		}
 
 	}
 
