@@ -1,6 +1,8 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { WMTUser } from 'src/app/core/WMTUser';
 
 @Component({
 	selector: 'register-page',
@@ -8,45 +10,66 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 	styleUrls: ['./register.component.scss']
 })
 
-export class RegisterComponent {
-	@ViewChild("email") emailField: ElementRef;
+export class RegisterComponent implements OnInit {
+	registerForm: FormGroup;
 	hideTagline: boolean = false;
 	hideRegister: boolean = false;
+	hideHeader: boolean = false;
+	isLoading: boolean = false;
 	errorMessage: string;
 	showError: boolean = false;
-	user = {
-		email: "",
-		password: ""
-	}
-	confirmPassword = "";
-	registerDisabled: boolean = true;
-	passwordsMatch: boolean = false;
 
 	constructor(
 		private router: Router,
 		private firebaseService: FirebaseService
 	) { }
 
-	ngAfterViewInit() {
-
-		let focusTimeout = setTimeout(() => {
-			this.emailField.nativeElement.focus();
-			clearTimeout(focusTimeout);
-		}, 300);
-
+	ngOnInit() {		
+		this.registerForm = new FormGroup({
+			email: new FormControl('', [
+				Validators.required,
+				Validators.pattern("[^ @]*@[^ @]*")
+			]),
+			password: new FormControl('', [
+				Validators.required, 
+				Validators.minLength(4)
+			]),
+			passwordConfirm: new FormControl('', [
+				Validators.minLength(4)
+			]),
+		  }, this.passwordMatchValidator);
 	}
+
+	passwordMatchValidator(g: FormGroup) {
+		return g.get('password').value === g.get('passwordConfirm').value
+		   ? null : {'mismatch': true};
+	 }
 
 	register() {
 
-		this.showError = false;
+		if (this.registerForm.valid) {
 
-		this.firebaseService.createNewUser(this.user)
-			.then((res) => {
-				console.log(res);
-			})
+			this.showError = false;
+			this.isLoading = true;
 
-		/*this.apiService.registerUser(this.user)
-			.then(this.goToDashboard.bind(this));*/
+			let user:WMTUser = {
+				email: this.registerForm.value.email,
+				password: this.registerForm.value.password
+			}
+	
+			this.firebaseService.createNewUser(user)
+				.then((res) => {
+					console.log(res);
+					this.isLoading = false;
+					this.goToDashboard();
+				})
+				.catch((error) => {
+					this.isLoading = false;
+					this.showError = true;
+					this.errorMessage = error.message;
+				});
+
+		}
 
 	}
 
@@ -56,44 +79,22 @@ export class RegisterComponent {
 
 		let pickerTimeout = setTimeout(() => {
 			this.router.navigate(['/']);
+			clearTimeout(pickerTimeout);
 		}, 1000);
+		
 	}
 
-	checkButtonState() {
-
-		let notFilledOut = false;
-
-		let email = this.user.email;
-		let password = this.user.password;
-		let confirm = this.confirmPassword;
-
-		this.passwordsMatch = (password == confirm && password != "");
-		let fieldsEmpty = (email == "" || password == "" || confirm == "");
-
-		(fieldsEmpty && !this.passwordsMatch || !this.passwordsMatch) ? notFilledOut = true : notFilledOut = false;
-
-		(!notFilledOut) ? this.registerDisabled = false : this.registerDisabled = true;
-
+	formFocus(focussed: boolean) {
+		this.hideHeader = focussed;
 	}
 
 	onHideTagline(hideTagline) {
 		this.hideTagline = hideTagline;
 	}
 
-	private goToDashboard(res) {
-
-		let error = res.error;
-
-		if (error != undefined) {
-			this.showError = true;
-			this.errorMessage = res.reasons[0];
-		}
-		else {
-			//this.apiService.setAuthToken(res.auth_token);
-			localStorage.setItem("username", this.user.email);
-			this.router.navigate(['dashboard']);
-		}
-
+	private goToDashboard() {
+		//localStorage.setItem("username", this.user.email);
+		this.router.navigate(['dashboard']);
 	}
 
 }

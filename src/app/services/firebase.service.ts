@@ -15,7 +15,6 @@ export class FirebaseService {
                     resolve(res);
                 })
                 .catch((error) => {
-                    console.log(error);
                     reject(error);
                 });
 
@@ -59,10 +58,12 @@ export class FirebaseService {
                   var providerData = user.providerData;
 
                  // console.log(user.email);
+                 resolve(user);
                   // ...
                 } else {
                   // User is signed out.
                   // ...
+                  
                 }
             });
 

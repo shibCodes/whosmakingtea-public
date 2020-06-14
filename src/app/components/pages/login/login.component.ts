@@ -1,7 +1,8 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { WMTUser } from 'src/app/core/WMTUser';
 
 @Component({
 	selector: 'login-page',
@@ -10,7 +11,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 
 export class LoginComponent implements OnInit {
-	@ViewChild("email") emailField: ElementRef;
 	loginForm: FormGroup;
 	hideTagline: boolean = false;
 	hideLogin: boolean = false;
@@ -45,21 +45,23 @@ export class LoginComponent implements OnInit {
 			this.showError = false;
 			this.isLoading = true;
 
-			let user = {
+			let user:WMTUser = {
 				email: this.loginForm.value.email,
 				password: this.loginForm.value.password
 			}
 	
 			this.firebaseService.loginUser(user)
 				.then((res) => {
-					console.log(res);
 					this.isLoading = false;
+					this.goToDashboard();
+				})
+				.catch((error) => {
+					this.isLoading = false;
+					this.errorMessage = error.message;
+					this.showError = true;
 				});
 
 		}
-
-		/*this.apiService.loginUser(this.user)
-			.then(this.goToDashboard.bind(this));*/
 
 	}
 
@@ -83,22 +85,8 @@ export class LoginComponent implements OnInit {
 		this.hideHeader = focussed;
 	}
 
-	private goToDashboard(res) {
-
-		let error = res.error;
-
-		if (error != undefined) {
-			this.showError = true;
-			this.errorMessage = res.reasons[0];
-		}
-		else {
-			//this.apiService.setAuthToken(res.auth_token);
-			// local storage set item in promise
-			// .then(go to dashboard)
-			//localStorage.setItem("username", this.user.email);
-			this.router.navigate(['dashboard']);
-		}
-
+	private goToDashboard() {
+		this.router.navigate(['dashboard']);
 	}
 
 }

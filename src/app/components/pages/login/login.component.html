@@ -8,7 +8,7 @@
         <h1>Login</h1>
         <p>Enter your details below to start picking!</p>
 
-        <form (ngSubmit)="login" [formGroup]="loginForm">
+        <form (ngSubmit)="login" [formGroup]="loginForm" [ngClass]="{'is-loading': isLoading}">
 
             <div class="error" (hidden)="showError" [ngClass]="{ 'toggleUp': showError }">
                 <i-feather name="alert-circle" class="icon"></i-feather>
@@ -28,6 +28,10 @@
             <button class="butt-general butt-cancel" (click)="cancel()">Cancel</button>
         
         </form>
+
+        <div class="loading-overlay" *ngIf="isLoading">
+            <loadyspin></loadyspin>
+        </div>
 
     </div>
 

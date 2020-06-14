@@ -26,6 +26,18 @@
         &.fadeInDown {
             animation-name: fadeInDown;
         }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.2s;
+    
+            &.is-loading {
+                opacity: 0.2;
+            }
+        }
     }
 
     h1 {
@@ -60,6 +72,9 @@
                 background: transparent;
                 border: none;
                 outline: none;
+                height: 40px;
+                line-height: 40px;
+                padding-top: 5px;
 
                 &.dont-match {
                     color: $colourError;
