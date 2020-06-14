@@ -6,7 +6,7 @@
 
         <div class="people-wrap" [perfectScrollbar]>
 
-                <div class="person" *ngFor="let person of allPeople; let i = index">
+                <div class="person" *ngFor="let person of allPeople; let i = index;">
                     <input #input type="text" class="name" placeholder="enter name..." [(ngModel)]="person.name" (ngModelChange)="checkButtonState()"/>
                     <i-feather name="x-circle" class="icon" (click)="removePerson(i)"></i-feather>
                 </div>

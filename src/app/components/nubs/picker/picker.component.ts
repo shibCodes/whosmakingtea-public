@@ -1,4 +1,5 @@
-import { Component, ViewChildren, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChildren, Output, EventEmitter, QueryList, Input, ElementRef, AfterViewInit } from '@angular/core';
+import { Person } from 'src/app/core/Person';
 
 @Component({
 	selector: 'picker',
@@ -6,10 +7,10 @@ import { Component, ViewChildren, Output, EventEmitter } from '@angular/core';
 	styleUrls: ['./picker.component.scss']
 })
 
-export class PickerComponent {
-	@ViewChildren('input') inputElements;
+export class PickerComponent implements AfterViewInit {
+	@ViewChildren('input') inputElements: QueryList<ElementRef>
 	@Output() hideTagline: EventEmitter<boolean> = new EventEmitter(false);
-	allPeople = [];
+	allPeople: Person[] = [];
 	instructionMessage: string = "Add a bunch of people and we’ll pick a random person for you!";
 	pickPersonDisabled: boolean = true;
 	pickPersonVisible: boolean = false;
@@ -18,13 +19,19 @@ export class PickerComponent {
 	hideSelection: boolean = true;
 	selectedPerson: string = "";
 
+	ngAfterViewInit() {
+		this.inputElements.changes.subscribe(() => {
+			this.peopleArrayRendered();
+		});
+	}
+
 	addPerson() {
 
 		if (this.allPeople.length <= 0) {
 			this.hideTagline.emit(true);
 		}
 
-		let personObj = {
+		let personObj: Person = {
 			name: ""
 		}
 
@@ -92,6 +99,15 @@ export class PickerComponent {
 
 		(!notFilledOut) ? this.pickPersonDisabled = false : this.pickPersonDisabled = true;
 
+	}
+
+	private peopleArrayRendered() {
+		if (this.allPeople.length === 1) {
+			this.inputElements.first.nativeElement.focus();
+		}
+		else if (this.allPeople.length > 1) {
+			this.inputElements.last.nativeElement.focus();
+		}
 	}
 
 	private showPickedPerson(person) {

@@ -58,7 +58,7 @@ export class FirebaseService {
                   var uid = user.uid;
                   var providerData = user.providerData;
 
-                  console.log(user.email);
+                 // console.log(user.email);
                   // ...
                 } else {
                   // User is signed out.
