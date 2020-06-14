@@ -16,6 +16,9 @@
         
             <div class="input-wrap">
                 <div class="field">
+                    <input type="text" class="name" placeholder="name..." formControlName="name" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
+                </div>
+                <div class="field">
                     <input type="email" class="name" placeholder="email..." formControlName="email" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
                 </div>
                 <div class="field">

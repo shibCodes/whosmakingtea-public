@@ -1,0 +1,21 @@
+@import "../../../../assets/variables";
+
+nav {
+    height: 100%;
+    width: 240px;
+    border-right: 2px solid $colourFontLight;  
+    position: relative;
+
+    .sidebar-welcome {
+        text-align: center;
+        padding: 2em 0;
+
+        .welcome-name {
+            font-size: 2.25em;
+        }
+
+        .welcome-intro {
+            font-size: 1.125em;
+        }
+    }
+}

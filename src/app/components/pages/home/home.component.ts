@@ -20,7 +20,7 @@ export class HomeComponent implements AfterViewInit {
 	) { }
 
     ngAfterViewInit() {
-       	this.firebaseService.checkAuthState();   
+       //	this.firebaseService.isUserAuthenticated();  
 	}
 	
 	onHideTagline(hideTagline) {

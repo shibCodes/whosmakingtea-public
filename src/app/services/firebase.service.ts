@@ -1,22 +1,43 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 @Injectable()
 export class FirebaseService {
-    
+
     createNewUser(user) {
 
         let resolver = (resolve, reject) => {
 
             firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                 .then((res) => {
-                    resolve(res);
+                    //resolve(res);
+                    this.updateDisplayName(user.name)
+                        .then(resolve)
+                        .catch(resolve)
                 })
                 .catch((error) => {
                     reject(error);
                 });
+
+        }
+
+        return new Promise(resolver);
+
+    }
+
+    updateDisplayName(name) {
+
+        let resolver = (resolve, reject) => {
+
+            let user = firebase.auth().currentUser;
+
+            user.updateProfile({
+                displayName: name,
+            })
+            .then(resolve)
+            .catch(reject);
 
         }
 
@@ -42,34 +63,60 @@ export class FirebaseService {
 
     }
 
-    checkAuthState() {
+    logoutUser() {
 
         let resolver = (resolve, reject) => {
 
-            firebase.auth().onAuthStateChanged(function(user) {
-                if (user) {
-                  // User is signed in.
-                  var displayName = user.displayName;
-                  var email = user.email;
-                  var emailVerified = user.emailVerified;
-                  var photoURL = user.photoURL;
-                  var isAnonymous = user.isAnonymous;
-                  var uid = user.uid;
-                  var providerData = user.providerData;
+            firebase.auth().signOut()
+                .then(() => {
+                    resolve(true);
+                })
+                .catch(() => {
+                    reject(false);
+                })
 
-                 // console.log(user.email);
-                 resolve(user);
-                  // ...
-                } else {
-                  // User is signed out.
-                  // ...
-                  
+        }
+
+        return new Promise(resolver);
+
+    }
+
+    getUserData() {
+
+        let resolver = (resolve, reject) => {
+
+            let user = firebase.auth().currentUser;
+
+            if (user) {
+                resolve(user);
+            }
+            else {
+                reject();
+            }
+
+        }
+
+        return new Promise(resolver);
+
+    }
+
+    isUserAuthenticated() {
+
+        let resolver = (resolve, reject) => {
+
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    resolve(user);
+                }
+                else {
+                    reject(false);
                 }
             });
 
         }
 
         return new Promise(resolver);
+
 
     }
 

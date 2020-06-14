@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { LoadySpinComponent } from './loadyspin/loadyspin.component';
 import { LoginHeaderComponent } from './loginheader/loginheader.component';
 import { PickerComponent } from './picker/picker.component';
+import { SideNavComponent } from './sidenav/sidenav.component';
 import { IconsModule } from '../../icons/icons.module';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -18,7 +19,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     declarations: [
         LoadySpinComponent,
         LoginHeaderComponent,
-        PickerComponent
+        PickerComponent,
+        SideNavComponent
     ],
     imports: [
         CommonModule,
@@ -35,7 +37,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     exports: [
         LoadySpinComponent,
         LoginHeaderComponent,
-        PickerComponent
+        PickerComponent,
+        SideNavComponent
     ]
 })
 

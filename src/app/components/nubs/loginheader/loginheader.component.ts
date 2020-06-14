@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
 	selector: 'loginheader',
@@ -14,7 +15,8 @@ export class LoginHeaderComponent implements OnInit {
 	showLogout: boolean = false;
 
 	constructor(
-		private router: Router
+		private router: Router,
+		private firebaseService: FirebaseService
 	) { }
 
 	ngOnInit() {
@@ -45,5 +47,15 @@ export class LoginHeaderComponent implements OnInit {
 			clearTimeout(pickerTimeout);
 		}, 1000);
 	}
+
+	logout() {
+        this.firebaseService.logoutUser()
+            .then(() => {
+                this.router.navigateByUrl('');
+            })
+            .catch(() => {
+                // error problem logging you out
+            })
+    }
 
 }
