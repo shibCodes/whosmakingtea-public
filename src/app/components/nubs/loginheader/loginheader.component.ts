@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 
 export class LoginHeaderComponent implements OnInit {
 	@Output() hidePage: EventEmitter<boolean> = new EventEmitter(false);
+	@Input() fadeAway: boolean;
 	currentUrl: string;
 	showLogout: boolean = false;
 
