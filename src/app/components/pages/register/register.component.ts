@@ -26,6 +26,10 @@ export class RegisterComponent implements OnInit {
 
 	ngOnInit() {		
 		this.registerForm = new FormGroup({
+			name: new FormControl('', [
+				Validators.required,
+				Validators.minLength(1)
+			]),
 			email: new FormControl('', [
 				Validators.required,
 				Validators.pattern("[^ @]*@[^ @]*")
@@ -53,6 +57,7 @@ export class RegisterComponent implements OnInit {
 			this.isLoading = true;
 
 			let user:WMTUser = {
+				name: this.registerForm.value.name,
 				email: this.registerForm.value.email,
 				password: this.registerForm.value.password
 			}
@@ -60,6 +65,8 @@ export class RegisterComponent implements OnInit {
 			this.firebaseService.createNewUser(user)
 				.then((res) => {
 					console.log(res);
+					
+					
 					this.isLoading = false;
 					this.goToDashboard();
 				})
