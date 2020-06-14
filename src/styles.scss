@@ -60,10 +60,6 @@ button {
       right: 5px;
     }
 
-    @media all and (max-width: 450px) {
-        transform: scale(0.8);
-    }
-
   }
 
   &.butt-pick, &.butt-register, &.butt-teamade {

@@ -1,4 +1,4 @@
-<loginheader (hidePage)="onHidePage($event)"></loginheader>
+<loginheader (hidePage)="onHidePage($event)" [fadeAway]="hideTagline"></loginheader>
 <section class="section-home"> 
     
     <div class="content-wrap" [ngClass]="{ 'fadeOutUp': hidePage }">
