@@ -11,6 +11,7 @@ header {
     padding: 20px;
     padding-bottom: 0;
     z-index: 1;
+    transition: 0.2s opacity;
 
     .login {
         border: none;
@@ -24,11 +25,11 @@ header {
             color: $colourGradientEnd;
         }
 
-        @media all and (max-width: 450px) {
-            margin-left: 0;
-            margin-right: -10px;
-        }
+    }
 
+    &.fade-away {
+        opacity: 0;
+        pointer-events: none;
     }
     
 }
