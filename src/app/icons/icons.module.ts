@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FeatherModule } from 'angular-feather';
-import { PlusCircle, XCircle, CheckCircle, Save, Circle, RefreshCw, AlertCircle, MoreHorizontal, Trash2, LogOut, Check, Menu } from 'angular-feather/icons';
+import { PlusCircle, XCircle, CheckCircle, Save, Circle, RefreshCw, AlertCircle, MoreHorizontal, Trash2, LogOut, Check, Menu, X, Edit3 } from 'angular-feather/icons';
 
 const icons = {
   PlusCircle, 
@@ -16,7 +16,9 @@ const icons = {
   Trash2, 
   LogOut, 
   Check, 
-  Menu
+  Menu,
+  X,
+  Edit3
 };
 
 

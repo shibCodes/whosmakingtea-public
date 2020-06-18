@@ -18,4 +18,197 @@ nav {
             font-size: 1.125em;
         }
     }
+
+    .sidebar-lists {
+        display: block;
+        width: 100%;
+
+        .sidebar-list {
+            display: block;
+            width: 100%;
+            height: 40px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+
+            .list {
+                width: 100%;
+                height: 100%;
+                display: block;
+                font-size: 1.2em;
+                font-weight: 600;
+                line-height: 42px;
+                padding-left: 20px;
+                cursor: pointer;
+                transition: all 0.2s;
+
+                &:hover {
+                    background: $colourGradientStart;
+                }
+
+                &.selected {
+                    background: $colourGradientStart;
+                }
+
+                &.hidden {
+                    display: none;
+                }
+ 
+            }
+
+            input {
+                background: $colourGradientStart;
+                height: 38px;
+                border-bottom: none;
+                padding-top: 3px;
+            }
+
+            .icon {
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                height: 24px;
+                width: 26px;
+                min-width: 26px;
+                margin-right: 10px;
+                cursor: pointer;
+                transition: all 0.5s;
+                display: none;
+
+                &:hover { transform: scale(1.1); }
+
+                &.selected {
+                    display: block;
+                }
+            }
+
+            .showmore-wrap {
+                position: absolute;
+                top: 0;
+                left: 100%;
+                width: 0;
+                height: 40px;
+                z-index: 2;
+                background: #E5974B;
+                border-top-right-radius: 20px;
+                border-bottom-right-radius: 20px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-evenly;
+                transition: all 0.3s;
+                overflow: hidden;
+
+                .function {
+                    cursor: pointer;
+                    transition: all 0.5s;
+                    margin-top: 2px;
+                    width: 24px;
+                    height: 24px;
+                    min-width: 24px;
+        
+                    &:hover { transform: scale(1.1); }
+
+                    &.hidden { display: none; }
+                }
+
+                .processing {
+                    height: 30px;
+                    width: 30px;
+                    background: url(/assets/img/loadyspin.svg) center center no-repeat;
+                    background-size: 100%;
+                }
+
+                &.visible {
+                    width: 80px;
+                }
+
+            }
+        }
+    }
+
+    .sidebar-add {
+        width: 100%;
+        position: relative;
+
+        .icon {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            height: 24px;
+            width: 24px;
+            min-width: 24px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: all 0.5s;
+
+            &:hover { transform: scale(1.1); }
+        }
+
+        .processing {
+            height: 30px;
+            width: 30px;
+            position: absolute;
+            right: 8px;
+            top: 0; 
+            bottom: 0;
+            margin: auto;
+            background: url(/assets/img/loadyspin.svg) center center no-repeat;
+            background-size: 100%;
+        }
+    }
+
+    .butt-add {
+        width: 145px;
+    }
+
+    .butt-cancel {
+        padding-right: 15px;
+        width: 90px;
+    }
+
+    .butt-add, .butt-cancel {
+        display: block;
+        margin: 20px auto;
+
+        &.hidden {
+            display: none;
+        }
+    }
+
+    .section-logout {
+        position: absolute;
+        bottom: 0;
+        height: 100px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    input {
+        width: 100%;
+        overflow: hidden;
+        height: 40px;
+        line-height: 40px;
+        padding: 4px 40px 0 20px;
+        border: none;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        -webkit-appearance: none;
+        background: none;
+        outline: none;
+        color: $colourFontLight;
+        font-family: $fontBody;
+        font-size: 1.2em;
+        font-weight: 600;
+        &::-webkit-input-placeholder { 
+            color: rgba(255, 255, 255, 0.2); 
+            font-style: italic;
+        }
+    }
 }

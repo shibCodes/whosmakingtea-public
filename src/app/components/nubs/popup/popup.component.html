@@ -1,0 +1,18 @@
+<section class="popup" [ngClass]="{'visible': showPopup}">
+
+    <div class="popup-wrap" [ngClass]="{'disappear': deleteStatus == 'done'}">
+        <div class="text-wrap">
+            <h1>{{textLine1}}<strong>{{itemName}}</strong>?</h1>
+            <p>{{textLine2}}</p>
+        </div>
+        <div class="button-wrap">
+            <button class="butt-general butt-dismiss" (click)="closePopup()" [disabled]="deleteStatus != 'idle'">No, I made a mistake!</button>
+            <button class="butt-general butt-delete" (click)="delete()" [ngClass]="{'processing': deleteStatus == 'processing', 'done': deleteStatus == 'done'}">
+                <span *ngIf="deleteStatus == 'processing'" class="processing"></span>
+                <i-feather name="check" class="icon done" *ngIf="deleteStatus == 'done'"></i-feather>
+                DELETE!
+            </button>
+        </div>
+    </div>
+
+</section>
