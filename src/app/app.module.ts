@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { FirebaseService } from './services/firebase.service';
+import { PopupService } from './services/popup.service';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { FirebaseService } from './services/firebase.service';
 		FormsModule
 	],
 	providers: [
-		FirebaseService
+		FirebaseService,
+		PopupService
 	],
 	bootstrap: [AppComponent]
 })

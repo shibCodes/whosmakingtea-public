@@ -13,4 +13,8 @@ export class DashboardComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    toggleMenu(event: boolean) {
+        this.openMenu = event;
+    }
+
 }
