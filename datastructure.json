@@ -1,0 +1,17 @@
+{
+    lists: [
+        {
+            name: "Tea List",
+            totalRuns: 0,
+            participants: [
+                {
+                    name: "Shib",
+                    made: 0,
+                    drank: 0,
+                    selected: false,
+                    last: false
+                }
+            ]
+        }
+    ]
+}

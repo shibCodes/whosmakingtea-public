@@ -5,6 +5,8 @@ import { LoadySpinComponent } from './loadyspin/loadyspin.component';
 import { LoginHeaderComponent } from './loginheader/loginheader.component';
 import { PickerComponent } from './picker/picker.component';
 import { SideNavComponent } from './sidenav/sidenav.component';
+import { UserListComponent } from './userlist/userlist.component';
+import { PopupComponent } from './popup/popup.component';
 import { IconsModule } from '../../icons/icons.module';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -20,7 +22,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         LoadySpinComponent,
         LoginHeaderComponent,
         PickerComponent,
-        SideNavComponent
+        SideNavComponent,
+        UserListComponent,
+        PopupComponent
     ],
     imports: [
         CommonModule,
@@ -38,7 +42,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         LoadySpinComponent,
         LoginHeaderComponent,
         PickerComponent,
-        SideNavComponent
+        SideNavComponent,
+        UserListComponent,
+        PopupComponent
     ]
 })
 

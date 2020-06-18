@@ -12,7 +12,6 @@ export class LoginHeaderComponent implements OnInit {
 	@Output() hidePage: EventEmitter<boolean> = new EventEmitter(false);
 	@Input() fadeAway: boolean;
 	currentUrl: string;
-	showLogout: boolean = false;
 
 	constructor(
 		private router: Router,
@@ -21,10 +20,6 @@ export class LoginHeaderComponent implements OnInit {
 
 	ngOnInit() {
 		this.currentUrl = this.router.url;
-
-		if (this.currentUrl == '/dashboard') {
-			this.showLogout = true;
-		}
 	}
 
 	register() {
@@ -47,15 +42,5 @@ export class LoginHeaderComponent implements OnInit {
 			clearTimeout(pickerTimeout);
 		}, 1000);
 	}
-
-	logout() {
-        this.firebaseService.logoutUser()
-            .then(() => {
-                this.router.navigateByUrl('');
-            })
-            .catch(() => {
-                // error problem logging you out
-            })
-    }
 
 }
