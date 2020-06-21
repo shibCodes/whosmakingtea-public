@@ -1,5 +1,5 @@
 export interface Participant {
-    id: string,
+    id: number,
     name: string,
     made: number,
     drank: number,

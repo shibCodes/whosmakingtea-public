@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { FirebaseService } from './services/firebase.service';
-import { PopupService } from './services/popup.service';
+import { DataService } from './services/data.service'; 
 
 
 @NgModule({
@@ -23,7 +23,7 @@ import { PopupService } from './services/popup.service';
 	],
 	providers: [
 		FirebaseService,
-		PopupService
+		DataService
 	],
 	bootstrap: [AppComponent]
 })
