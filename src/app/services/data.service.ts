@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class DataService {
-    private allLists = new BehaviorSubject<List[]>([]);
+    private allLists = new BehaviorSubject<List[]>(undefined);
     allListsObservable = this.allLists.asObservable();
 
     private selectedList = new BehaviorSubject<any>({});

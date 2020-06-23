@@ -23,6 +23,7 @@ export class SideNavComponent implements OnInit {
     allLists: List[] = [];
     itemToDelete: ItemToDelete;
     showDeletePopup: boolean = false;
+    isLoading: boolean = true;
 
     constructor(private firebaseService: FirebaseService, private dataService: DataService, private router: Router) { }
 
@@ -50,6 +51,8 @@ export class SideNavComponent implements OnInit {
         if (this.allLists.length >= 5) {
             this.listLimitReached = true;
         }
+
+        this.isLoading = false;
 
     }
 

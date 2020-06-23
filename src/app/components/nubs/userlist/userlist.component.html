@@ -1,13 +1,13 @@
 <section class="userlist">
     <i-feather name="menu" class="icon ico-menu" (click)="toggleMenu()"></i-feather>
 
-    <div class="intro-text">
+    <div class="intro-text" [ngClass]="{'visible': !isLoading}">
         <p class="no-users-text">{{instructionMessage}}</p>
         <p class="rounds-made-text" [hidden]="noLists == true" [ngClass]="{'hidden': hideList || noPeople}">You guys have made {{selectedList?.totalRuns}} rounds! Keep it up!</p>
-        <div class="error" (hidden)="showError" [ngClass]="{ 'toggleUp': showError }"><i-alert-circle class="icon"></i-alert-circle><p>{{errorMessage}}</p></div>
+        <div class="error" (hidden)="showError" [ngClass]="{ 'toggleUp': showError }"><i-feather name="alert-circle" class="icon"></i-feather><p>{{errorMessage}}</p></div>
     </div>
 
-    <div class="list-wrap" [ngClass]="{'hidden': hideList}">
+    <div class="list-wrap" [ngClass]="{'hidden': hideList, 'visible': !isLoading}">
 
         <div class="users-wrap" [perfectScrollbar]>
 
@@ -30,6 +30,10 @@
         <button class="butt-add butt-general" (click)="addParticipant()" [hidden]="!addVisible">Add <i-feather name="plus-circle" class="icon"></i-feather></button> 
         <button class="butt-pick butt-general toggleUp" (click)="pickParticipant()" [disabled]="pickPersonDisabled" [hidden]="!pickPersonVisible">Pick!</button>
 
+    </div>
+
+    <div class="loading-overlay" *ngIf="isLoading">
+        <loadyspin></loadyspin>
     </div>
 
     <popup-new [itemToDelete]="itemToDelete" [showPopup]="showDeletePopup" (closePopup)="closePopup($event)" (participantDeletionComplete)="removeParticipant($event)"></popup-new>

@@ -33,6 +33,7 @@ export class UserListComponent implements OnInit {
     itemToDelete: ItemToDelete;
     showDeletePopup: boolean;
     noPeople: boolean = false;
+    isLoading: boolean = true;
 
     constructor(private dataService: DataService, private firebaseService: FirebaseService) { }
 
@@ -204,16 +205,19 @@ export class UserListComponent implements OnInit {
     }
 
     private updateAllLists(lists: List[]) {
-        
-        if (lists.length <= 0) {
-            this.noLists = true;
-            this.instructionMessage = instructionMessages.noLists;
-        }
-        else {
-            this.noLists = false;
-            this.instructionMessage = instructionMessages.default;
-        }
 
+        if (lists != undefined) {
+            if (lists.length <= 0) {
+                this.noLists = true;
+                this.instructionMessage = instructionMessages.noLists;
+                this.isLoading = false;
+            }
+            else {
+                this.noLists = false;
+                this.instructionMessage = instructionMessages.default;
+            }
+        }
+    
     }
 
     private updateSelectedList(list: List) {
@@ -221,6 +225,7 @@ export class UserListComponent implements OnInit {
         this.selectedList = list;
 
         if (list.id != undefined) {
+            this.isLoading = true;
             this.firebaseService.getListParticipants(list.id)
                 .then((allParticipants: Participant[]) => {
                     this.organiseParticipants(allParticipants);
@@ -251,6 +256,8 @@ export class UserListComponent implements OnInit {
             this.pickPersonDisabled = false;      
             this.noPeople = false;
         }
+
+        this.isLoading = false;
 
     }
 

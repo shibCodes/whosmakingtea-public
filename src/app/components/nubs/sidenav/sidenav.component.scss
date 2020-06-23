@@ -22,6 +22,7 @@ nav {
     .sidebar-lists {
         display: block;
         width: 100%;
+        position: relative;
 
         .sidebar-list {
             display: block;
@@ -29,6 +30,12 @@ nav {
             height: 40px;
             border-bottom: 2px solid rgba(255, 255, 255, 0.2);
             position: relative;
+            //opacity: 0;
+            transition: opacity 0.2s;
+
+            &.visible {
+                opacity: 1;
+            }
 
             .list {
                 width: 100%;

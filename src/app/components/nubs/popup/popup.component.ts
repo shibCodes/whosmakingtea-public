@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { ItemToDelete } from 'src/app/core/ItemToDelete';
 import { List } from 'src/app/core/List';
@@ -18,8 +18,31 @@ export class PopupComponent {
     @Output() participantDeletionComplete: EventEmitter<Participant> = new EventEmitter(false);
     @Output() closePopup: EventEmitter<boolean> = new EventEmitter(true);
     deleteStatus: string = "idle";
+    backgroundFadeIn: boolean = false;
+    makePopupVisible: boolean = false;
+    disappear: boolean = true;
 
     constructor(private firebaseService: FirebaseService) {
+
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+
+        if (changes.showPopup.currentValue == true) { 
+            this.makePopupVisible = true;
+            setTimeout(() => {
+                this.backgroundFadeIn = true;
+                this.disappear = false;
+            }, 0);
+            
+        }
+        else {
+            this.backgroundFadeIn = false;
+            this.disappear = true;
+            setTimeout(() => {
+                this.makePopupVisible = false;    
+            }, 200);
+        }
 
     }
 

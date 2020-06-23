@@ -6,6 +6,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
 
     .ico-menu {
         position: absolute;
@@ -26,6 +27,8 @@
     }
 
     .intro-text {
+        opacity: 0;
+        transition: opacity 0.3s;
 
         @media all and (max-width: 600px) {
             margin-top: 40px;
@@ -46,6 +49,10 @@
             margin-bottom: 30px;
         }
 
+        &.visible {
+            opacity: 1;
+        }
+
     }
 
     .list-wrap {
@@ -54,6 +61,12 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+
+        &.visible {
+            opacity: 1;
+        }
 
         .users-wrap {
             width: 80%;

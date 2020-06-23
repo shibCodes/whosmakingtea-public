@@ -1,6 +1,6 @@
-<section class="popup" [ngClass]="{'visible': showPopup}">
+<section class="popup" [ngClass]="{'visible': makePopupVisible, 'appear': backgroundFadeIn}">
 
-    <div class="popup-wrap">
+    <div class="popup-wrap" [ngClass]="{'disappear': disappear}">
         <div class="text-wrap" *ngIf="itemToDelete != undefined">
             <h1>Are you sure you want to delete the {{itemToDelete.type}} <strong>"{{itemToDelete.title}}"</strong>?</h1>
             <p>If you hit delete there's no way back! {{ (itemToDelete?.type == 'list') ? "It's" : "They're" }} gone for good! No take-backsies!</p>
