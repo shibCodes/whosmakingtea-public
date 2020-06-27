@@ -117,7 +117,6 @@ export class ThreeService {
 
     // then we load the mesh.
     private onMaterialCreate(materials) {
-        console.log("material loaded")
         var objPath = '../assets/teacupedit.obj';
         var loader = new OBJLoader();
         loader.setMaterials(materials);
@@ -143,11 +142,9 @@ export class ThreeService {
         this.m_renderer.render(this.m_scene, this.m_camera);
 
         if (this.m_forwardRotation == false && this.m_rot > this.m_maxObjectRotation) {
-            // console.log("forward");
             this.m_forwardRotation = true;
         }
         if (this.m_forwardRotation && this.m_rot < -this.m_maxObjectRotation) {
-            // console.log("back");
             this.m_forwardRotation = false;
         }
 
@@ -170,7 +167,7 @@ export class ThreeService {
     
     //------------------------------------------------------------------------------
     private throwError(error) {
-        console.log('An error happened: ', error);
+        console.error('An error happened: ', error);
     }
 
 }
