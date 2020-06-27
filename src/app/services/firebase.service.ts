@@ -409,6 +409,37 @@ export class FirebaseService {
 
     }
 
+    saveTeaRoundResults(list: List, participants: Participant[]) {
+
+        let resolver = (resolve, reject) => {
+
+            let batch = this.db.batch();
+
+            let listDocRef = this.db.collection("users").doc(this.user.uid).collection("lists").doc(list.id);
+            batch.update(listDocRef, { "totalRuns": list.totalRuns });
+
+            participants.forEach((participant) => {
+
+                let participantRef = this.db.collection("users").doc(this.user.uid).collection("lists").doc(list.id).collection("participants").doc(participant.id);
+
+                batch.update(participantRef, { "made": participant.made, "drank": participant.drank, "last": participant.last });
+
+            });
+
+            batch.commit()
+                .then(() => {
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+
+        }
+
+        return new Promise(resolver);
+
+    }
+
 
     getListDataWithParticipants() {
 
