@@ -5,6 +5,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/database';
+import 'firebase/analytics';
 import { List } from '../core/List';
 import { Participant } from '../core/Participant';
 
@@ -16,6 +17,7 @@ export class FirebaseService {
     initialiseFirebase() {
         let app = firebase.initializeApp(firebaseConfig);
         this.db = firebase.firestore(app);
+        firebase.analytics();
     }
 
     createNewUser(user) {
