@@ -54,7 +54,9 @@ export class UserListComponent implements OnInit {
     ngAfterViewInit() {
 		this.inputElements.changes.subscribe((changes) => {
             // TODO: don't run this on list change
-			this.peopleArrayRendered();
+            if (this.currentParticipants != undefined) {
+                this.peopleArrayRendered();
+            }	
 		});
 	}
 
@@ -373,7 +375,7 @@ export class UserListComponent implements OnInit {
 
         this.selectedList = list;
 
-        if (list.id != undefined && list.participants == undefined) {
+        if (list != undefined && list.id != undefined && list.participants == undefined) {
             this.isLoading = true;
             this.firebaseService.getListParticipants(list.id)
                 .then((allParticipants: Participant[]) => {
@@ -381,7 +383,7 @@ export class UserListComponent implements OnInit {
                     this.organiseParticipants(allParticipants);
                 });
         }
-        else if (list.participants != undefined) {
+        else if (list != undefined && list.participants != undefined) {
             this.organiseParticipants(list.participants);
         }
 
@@ -435,6 +437,12 @@ export class UserListComponent implements OnInit {
 
     private handleError(error) {
         console.error(error);
+    }
+
+    ngOnDestroy() {
+        this.dataService.updateAllLists(undefined);
+        this.dataService.updateSelectedList(undefined);
+
     }
 
 }
