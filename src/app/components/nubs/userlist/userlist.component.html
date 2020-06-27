@@ -1,13 +1,13 @@
 <section class="userlist">
     <i-feather name="menu" class="icon ico-menu" (click)="toggleMenu()"></i-feather>
 
-    <div class="intro-text" [ngClass]="{'visible': !isLoading, 'hidden': hideIntroText}">
+    <div class="intro-text" [ngClass]="{'visible': !isLoading, 'hidden': listState == 'picking'}">
         <p class="no-users-text">{{instructionMessage}}</p>
-        <p class="rounds-made-text" [hidden]="noLists == true" [ngClass]="{'hidden': hideList || noPeople}">You guys have made {{selectedList?.totalRuns}} rounds! Keep it up!</p>
+        <p class="rounds-made-text" [hidden]="listState == 'noLists'" [ngClass]="{'hidden': listState == 'picking' || listState == 'emptyList' || listState == 'picked'}">You guys have made {{selectedList?.totalRuns}} rounds! Keep it up!</p>
         <div class="error" (hidden)="showError" [ngClass]="{ 'toggleUp': showError }"><i-feather name="alert-circle" class="icon"></i-feather><p>{{errorMessage}}</p></div>
     </div>
 
-    <div class="list-wrap" [ngClass]="{'hidden': hideList, 'visible': !isLoading}">
+    <div class="list-wrap" [ngClass]="{'hidden': listState == 'picking' || listState == 'picked', 'visible': !isLoading}">
 
         <div class="users-wrap" [perfectScrollbar]>
 
@@ -35,13 +35,13 @@
     
 
     <div class="loading-overlay" *ngIf="isLoading">
-        <div class="intro-text visible" *ngIf="isPicking">
+        <div class="intro-text visible" *ngIf="listState == 'picking'">
             {{instructionMessage}}
         </div>
         <loadyspin></loadyspin>
     </div>
 
-    <div class="selection-wrap" [ngClass]="{'hidden': hideSelection}">
+    <div class="selection-wrap" [ngClass]="{'hidden': listState != 'picked', 'visible': !isLoading}">
         
         <div class="selected-name">{{selectedPersonName}}</div>
         
