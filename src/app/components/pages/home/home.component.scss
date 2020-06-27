@@ -16,6 +16,7 @@
         width: 100%;
         animation-duration: 1s;
         animation-fill-mode: both;
+        z-index: 1;
 
         &.fadeOutUp {
             animation-name: fadeOutUp;

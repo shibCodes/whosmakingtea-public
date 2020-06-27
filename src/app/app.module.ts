@@ -9,7 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { FirebaseService } from './services/firebase.service';
-import { DataService } from './services/data.service'; 
+import { DataService } from './services/data.service';
+import { ThreeService } from './services/three.service';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { DataService } from './services/data.service';
 	],
 	providers: [
 		FirebaseService,
-		DataService
+		DataService,
+		ThreeService
 	],
 	bootstrap: [AppComponent]
 })
