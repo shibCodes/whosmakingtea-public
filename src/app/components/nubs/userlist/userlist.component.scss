@@ -173,6 +173,12 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+
+        &.visible {
+            opacity: 1;
+        }
         
         .selected-name {
             font-size: 5em;

@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { instructionMessages } from './instructionMessages';
 import { errorMessages } from './errorMessages';
+import { listState } from './listState';
 import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { List } from 'src/app/core/List';
@@ -18,27 +19,22 @@ export class UserListComponent implements OnInit {
     @Output() showMenu: EventEmitter<boolean> = new EventEmitter();
     allListsSubscription: Subscription;
     selectedListSubscription: Subscription;
-    menuOpen: boolean = false;
-    instructionMessage: string = instructionMessages.default;
-    errorMessage: string = undefined;
-    noLists: boolean = true;
     selectedList: List;
     currentParticipants: Participant[];
-    hideList: boolean = false;
-    hideIntroText: boolean = false;
+    itemToDelete: ItemToDelete;
+    selectedPerson: Participant;
+    selectedPersonName: string;
+    showDeletePopup: boolean;
+    isLoading: boolean = true;
+    menuOpen: boolean = false;
+    instructionMessage: string = instructionMessages.default;
+    listState: string = listState.default;
+    errorMessage: string = undefined;
+    showError: boolean = false;   
     pickPersonVisible: boolean = false;
     pickPersonDisabled: boolean = true;
     addVisible: boolean = false;
     addDisabled: boolean = false;
-    showError: boolean = false;
-    itemToDelete: ItemToDelete;
-    showDeletePopup: boolean;
-    noPeople: boolean = false;
-    isLoading: boolean = true;
-    hideSelection: boolean = true;
-    selectedPerson: Participant;
-    selectedPersonName: string;
-    isPicking: boolean = false;
 
     constructor(private dataService: DataService, private firebaseService: FirebaseService) { }
 
@@ -56,6 +52,7 @@ export class UserListComponent implements OnInit {
 
     ngAfterViewInit() {
 		this.inputElements.changes.subscribe((changes) => {
+            // TODO: don't run this on list change
 			this.peopleArrayRendered();
 		});
 	}
@@ -123,7 +120,6 @@ export class UserListComponent implements OnInit {
             if (this.currentParticipants.length >= 2) {
                 this.pickPersonDisabled = false;
                 this.pickPersonVisible = true;
-                this.noPeople = false;
                 this.instructionMessage = instructionMessages.default;
             }
     
@@ -193,7 +189,7 @@ export class UserListComponent implements OnInit {
         }
         
         if (this.currentParticipants.length <= 0) {
-            this.noPeople = true;
+            this.listState = listState.emptyList;
             this.instructionMessage = instructionMessages.emptyList;
         }
 
@@ -204,23 +200,16 @@ export class UserListComponent implements OnInit {
     }
 
     backToList() {
-
-        this.hideSelection = true;
-        this.hideList = false;
-        this.hideIntroText = false;
-
         this.instructionMessage = instructionMessages.default;
+        this.listState = listState.default;
     }
 
     pickParticipant() {
         
         // Set messaging
         this.instructionMessage = instructionMessages.picking;   
-        this.hideList = true;
-        this.hideIntroText = true;
-        this.hideSelection = true;
+        this.listState = listState.picking;
         this.isLoading = true;   
-        this.isPicking = true;
         
         // Calculate tea tally modifier per participant
         let participantsInRound = this.getParticipantsInRound();
@@ -309,11 +298,8 @@ export class UserListComponent implements OnInit {
         this.updateList();
         this.updateParticipants();
 
-        this.hideSelection = true;
-        this.hideList = false;
-        this.hideIntroText = false;
-
         this.instructionMessage = instructionMessages.default;
+        this.listState = listState.default;
 
     }
 
@@ -327,10 +313,9 @@ export class UserListComponent implements OnInit {
 
     private showPickedParticipant(participant: Participant) {
         this.isLoading = false;
-        this.hideSelection = false;
-        this.hideIntroText = false;
 
         this.instructionMessage = instructionMessages.picked;
+        this.listState = listState.picked;
 
         this.selectedPersonName = participant.name;
     }
@@ -385,13 +370,13 @@ export class UserListComponent implements OnInit {
 
         if (lists != undefined) {
             if (lists.length <= 0) {
-                this.noLists = true;
                 this.instructionMessage = instructionMessages.noLists;
+                this.listState = listState.noLists;
                 this.isLoading = false;
             }
             else {
-                this.noLists = false;
                 this.instructionMessage = instructionMessages.default;
+                this.listState = listState.default;
             }
         }
     
@@ -418,20 +403,20 @@ export class UserListComponent implements OnInit {
         
         if (this.currentParticipants.length <= 0) {
             this.instructionMessage = instructionMessages.emptyList;
-            this.noPeople = true;
             this.pickPersonVisible = false;
+            this.listState = listState.emptyList;
         }
         else if (this.currentParticipants.length < 2) {
             this.instructionMessage = instructionMessages.default;
             this.pickPersonVisible = true;
             this.pickPersonDisabled = true;
-            this.noPeople = false;
+            this.listState = listState.default;
         }
         else if (this.currentParticipants.length >= 2) {
             this.instructionMessage = instructionMessages.default;
             this.pickPersonVisible = true;
             this.pickPersonDisabled = false;      
-            this.noPeople = false;
+            this.listState = listState.default;
         }
 
         this.isLoading = false;
