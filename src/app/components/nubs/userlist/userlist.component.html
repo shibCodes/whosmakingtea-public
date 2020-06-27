@@ -1,7 +1,7 @@
 <section class="userlist">
     <i-feather name="menu" class="icon ico-menu" (click)="toggleMenu()"></i-feather>
 
-    <div class="intro-text" [ngClass]="{'visible': !isLoading}">
+    <div class="intro-text" [ngClass]="{'visible': !isLoading, 'hidden': hideIntroText}">
         <p class="no-users-text">{{instructionMessage}}</p>
         <p class="rounds-made-text" [hidden]="noLists == true" [ngClass]="{'hidden': hideList || noPeople}">You guys have made {{selectedList?.totalRuns}} rounds! Keep it up!</p>
         <div class="error" (hidden)="showError" [ngClass]="{ 'toggleUp': showError }"><i-feather name="alert-circle" class="icon"></i-feather><p>{{errorMessage}}</p></div>
@@ -32,8 +32,26 @@
 
     </div>
 
+    
+
     <div class="loading-overlay" *ngIf="isLoading">
+        <div class="intro-text visible" *ngIf="isPicking">
+            {{instructionMessage}}
+        </div>
         <loadyspin></loadyspin>
+    </div>
+
+    <div class="selection-wrap" [ngClass]="{'hidden': hideSelection}">
+        
+        <div class="selected-name">{{selectedPersonName}}</div>
+        
+        <div class="button-wrap">
+            <button class="butt-pickagain butt-general" (click)="pickParticipant()">Pick again <i-feather name="refresh-cw" class="icon"></i-feather></button>
+            <button class="butt-addmore butt-general" (click)="backToList()">Back to list <i-feather name="plus-circle" class="icon"></i-feather></button>
+        </div>
+
+        <button class="butt-teamade butt-general toggleUp" (click)="teaMade()" [disabled]="pickPersonDisabled" [hidden]="!pickPersonVisible">{{selectedPersonName}} made tea!</button>
+        
     </div>
 
     <popup-new [itemToDelete]="itemToDelete" [showPopup]="showDeletePopup" (closePopup)="closePopup($event)" (participantDeletionComplete)="removeParticipant($event)"></popup-new>

@@ -238,8 +238,6 @@ export class FirebaseService {
 
         let resolver = (resolve, reject) => {
 
-            console.log(generatedID);
-
             let listRef = this.db.collection("users").doc(this.user.uid).collection("lists").doc(generatedID);
 
             listRef.get().then((list) => {
@@ -249,7 +247,6 @@ export class FirebaseService {
                         .catch(reject);
                 }
                 else {
-                    console.log("NO");
                     this.getEveryListEver(listObj)
                         .then(resolve)
                         .catch(reject);
@@ -315,13 +312,9 @@ export class FirebaseService {
 
     getListParticipants(listID: string) {
 
-        console.log(listID);
-
         let resolver = (resolve, reject) => {
 
             let participantsRef = this.db.collection("users").doc(this.user.uid).collection("lists").doc(listID).collection("participants");
-
-            console.log(participantsRef);
 
             participantsRef.get()
                 .then((participants) => {
@@ -333,7 +326,6 @@ export class FirebaseService {
                     }
                     else {
                         participants.forEach((participant) => {
-                            console.log(participant.data());
 
                             let newParticipant: Participant = {
                                 id: participant.id,
@@ -387,9 +379,6 @@ export class FirebaseService {
 
         let resolver = (resolve, reject) => {
 
-            console.log("list id: ", listID);
-            console.log("participant: ", participant);
-
             let participantRef = this.db.collection("users").doc(this.user.uid).collection("lists").doc(listID).collection("participants").doc(participant.id);
 
             participantRef.set(participant)
@@ -406,8 +395,6 @@ export class FirebaseService {
 
         let resolver = (resolve, reject) => {
 
-            console.log("firebase delete!");
-
             let participantRef = this.db.collection("users").doc(this.user.uid).collection("lists").doc(listID).collection("participants").doc(participant.id);
 
             participantRef.delete()
@@ -422,8 +409,6 @@ export class FirebaseService {
 
 
     getListDataWithParticipants() {
-
-        console.log(this.user.uid);
 
         let lists: List[] = [];
         let listsCollectionRef = this.db.collection("users").doc(this.user.uid).collection("lists");
@@ -462,8 +447,6 @@ export class FirebaseService {
                                 listObj.participants.push(participantObj);
                             });
                         });
-
-                    console.log(listObj);
 
                 });
             });

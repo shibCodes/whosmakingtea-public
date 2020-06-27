@@ -4,5 +4,6 @@ export interface Participant {
     made: number,
     drank: number,
     last: boolean,
-    selected: boolean
+    selected: boolean,
+    percentage_not_made?: number
 }

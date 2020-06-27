@@ -25,6 +25,7 @@ export class UserListComponent implements OnInit {
     selectedList: List;
     currentParticipants: Participant[];
     hideList: boolean = false;
+    hideIntroText: boolean = false;
     pickPersonVisible: boolean = false;
     pickPersonDisabled: boolean = true;
     addVisible: boolean = false;
@@ -34,6 +35,10 @@ export class UserListComponent implements OnInit {
     showDeletePopup: boolean;
     noPeople: boolean = false;
     isLoading: boolean = true;
+    hideSelection: boolean = true;
+    selectedPerson: Participant;
+    selectedPersonName: string;
+    isPicking: boolean = false;
 
     constructor(private dataService: DataService, private firebaseService: FirebaseService) { }
 
@@ -50,7 +55,7 @@ export class UserListComponent implements OnInit {
     }
 
     ngAfterViewInit() {
-		this.inputElements.changes.subscribe(() => {
+		this.inputElements.changes.subscribe((changes) => {
 			this.peopleArrayRendered();
 		});
 	}
@@ -133,8 +138,23 @@ export class UserListComponent implements OnInit {
     }
 
     updateParticipant(personIndex: number) {
-        let participant = this.currentParticipants[personIndex];
-        this.firebaseService.updateParticipant(this.selectedList.id, participant);
+
+       // let updateTimeout = setTimeout(() => {
+
+            console.log("update participant!");
+
+            let participant = this.currentParticipants[personIndex];
+
+            console.log(participant);
+
+            if (participant != undefined) {
+                this.firebaseService.updateParticipant(this.selectedList.id, participant);
+            }
+
+          //  clearTimeout(updateTimeout);
+
+        //}, 1000);
+        
     }
 
     deleteParticipant(personIndex: number) {
@@ -155,8 +175,6 @@ export class UserListComponent implements OnInit {
     }
 
     removeParticipant(participant: Participant) {
-
-        console.log("remove participant!");
 
         this.showDeletePopup = false;
 
@@ -183,6 +201,165 @@ export class UserListComponent implements OnInit {
 
     closePopup(event: boolean) {
         this.showDeletePopup = event;
+    }
+
+    backToList() {
+
+        this.hideSelection = true;
+        this.hideList = false;
+        this.hideIntroText = false;
+
+        this.instructionMessage = instructionMessages.default;
+    }
+
+    pickParticipant() {
+        
+        // Set messaging
+        this.instructionMessage = instructionMessages.picking;   
+        this.hideList = true;
+        this.hideIntroText = true;
+        this.hideSelection = true;
+        this.isLoading = true;   
+        this.isPicking = true;
+        
+        // Calculate tea tally modifier per participant
+        let participantsInRound = this.getParticipantsInRound();
+        let teaTally = 0;
+        participantsInRound.forEach((participant) => teaTally += participant.percentage_not_made);
+        let modifier = 100 / teaTally;
+
+        // Calculate the drink modifier
+        participantsInRound.map((participant) => participant.percentage = participant.percentage_not_made*modifier );
+
+        // Now sort
+        participantsInRound.sort((participantA, participantB):number => { 
+            if (participantA.percentage < participantB.percentage) return -1;
+            if (participantA.percentage > participantB.percentage) return 1;
+            return 0;
+        });
+
+        //- Find the graphPlot, which is 100 / (num participants - 1) (e.g 33)
+        //- Plot out the graphArr using the graphPlot (let's say it's 33.33 with 4 participants) as thus [100, 66.6, 33.3, 0]
+        //- The find the graphDiff, which is the sum of graphArr / 100 (e.g. 199.9 / 100 = 1.999)
+        //- Then recalculate each new percentage for participants with:
+        // newChange = (moddedPerc * graphDiff) + graphArr[i] / 2 / graphDiff
+        // (where [i] is the value from graphArr that corresponds with this user's position in the original sorted drinks array.
+        // Mod graph = (modPer * graphDiff) + 100 / 2 / graphDiff = result
+        // (23*2.5) + 100 / 2 / 2.5 = 31.5
+
+        var graphPlot = 100 / (participantsInRound.length - 1);
+        var graphDiff = 0;
+
+        for (let p = 0; p < participantsInRound.length; p++) {
+            let graphArrayNum = 100 - (graphPlot * p);
+            graphDiff = graphDiff + graphArrayNum;
+        }
+
+        graphDiff = graphDiff / 100;
+
+        let randomMax = 0;
+
+        for (let i = 0; i < participantsInRound.length; i++) { 
+            let participantWeighter = graphPlot * i;
+            let weightedPercentage = (participantsInRound[i].percentage + participantWeighter) / 2;
+            randomMax = randomMax + weightedPercentage;
+            participantsInRound[i].percentage = weightedPercentage;
+        }
+
+        var victim = null;
+        var roulette = Math.ceil(Math.random() * randomMax);
+        var pointer = 0;
+
+        participantsInRound.forEach( (a) => {
+            pointer = pointer + a.percentage;
+            if (roulette <= pointer && victim == null && !a.last) {
+                victim = a;
+                this.selectedPerson = victim;
+            }
+        });
+
+        ////////////////////////////////
+        let pickerTimeout = setTimeout(() => {  
+            this.showPickedParticipant(this.selectedPerson);
+            clearTimeout(pickerTimeout);
+        }, 1500);
+
+    }
+
+    teaMade() {
+
+        console.log(this.selectedPerson);
+
+        for (var i = 0; i < this.currentParticipants.length; i++) {
+
+            this.currentParticipants[i].last = false;
+            
+            if (this.selectedPerson.id == this.currentParticipants[i].id) {
+                this.currentParticipants[i].made++;
+                this.currentParticipants[i].last = true;
+            }
+
+            if (this.currentParticipants[i].selected == true) {
+                this.currentParticipants[i].drank++;
+            }
+        }
+
+        this.selectedList.totalRuns = this.selectedList.totalRuns + 1;
+
+        this.updateList();
+        this.updateParticipants();
+
+        this.hideSelection = true;
+        this.hideList = false;
+        this.hideIntroText = false;
+
+        this.instructionMessage = instructionMessages.default;
+
+    }
+
+    private updateList() {
+
+    }
+
+    private updateParticipants() {
+        
+    }
+
+    private showPickedParticipant(participant: Participant) {
+        this.isLoading = false;
+        this.hideSelection = false;
+        this.hideIntroText = false;
+
+        this.instructionMessage = instructionMessages.picked;
+
+        this.selectedPersonName = participant.name;
+    }
+
+    private getParticipantsInRound() {
+
+        let peopleInRound = [];
+
+        for (var i = 0; i < this.currentParticipants.length; i++) {
+
+            if (this.currentParticipants[i].selected) {
+
+                var made = this.currentParticipants[i].made;
+                var drank = this.currentParticipants[i].drank;
+                var notMade = drank - made;
+
+                if (drank == 0) {
+                    this.currentParticipants[i].percentage_not_made = 100;
+                }
+                else {
+                    this.currentParticipants[i].percentage_not_made = (notMade / drank) * 100;
+                }
+
+                peopleInRound.push(this.currentParticipants[i]);
+            }
+
+        }
+
+        return peopleInRound;
     }
 
     private peopleArrayRendered() {
