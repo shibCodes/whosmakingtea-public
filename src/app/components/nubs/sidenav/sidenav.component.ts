@@ -24,6 +24,7 @@ export class SideNavComponent implements OnInit {
     itemToDelete: ItemToDelete;
     showDeletePopup: boolean = false;
     isLoading: boolean = true;
+    showLogout: boolean = true;
 
     constructor(private firebaseService: FirebaseService, private dataService: DataService, private router: Router) { }
 
@@ -61,6 +62,10 @@ export class SideNavComponent implements OnInit {
 
         if (!show) {
             this.listName = undefined;
+            this.showLogout = true;
+        }
+        else {
+            this.showLogout = false;
         }
 
     }
@@ -82,6 +87,8 @@ export class SideNavComponent implements OnInit {
 
         this.allLists[listIndex].showEdit = !this.allLists[listIndex].showEdit;
 
+        this.showLogout = false;
+
         let updateNameTimeout = setTimeout(() => {  
             this.sidebarLists.toArray()[listIndex].nativeElement.children[1].focus();
             clearTimeout(updateNameTimeout);
@@ -98,11 +105,13 @@ export class SideNavComponent implements OnInit {
                 this.allLists[listIndex].showEdit = false;
                 this.allLists[listIndex].showMore = !this.allLists[listIndex].showMore;
                 this.editListLoading = false;
+                this.showLogout = true;
             })
             .catch((error) => {
                 console.error(error);
                 this.editListLoading = false;
                 this.toggleListOptions(listIndex);
+                this.showLogout = true;
             });
 
     }

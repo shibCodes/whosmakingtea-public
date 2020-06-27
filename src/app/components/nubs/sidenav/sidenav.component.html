@@ -29,7 +29,7 @@
     <button *ngIf="!listLimitReached" class="butt-add butt-general" (click)="toggleAddNewList(true)" [ngClass]="{'hidden': showAddNewList}">New List <i-feather name="plus-circle" class="icon"></i-feather></button> 
     <button class="butt-general butt-cancel" (click)="toggleAddNewList(false)" [ngClass]="{'hidden': !showAddNewList}">Cancel</button>
 
-    <section class="section-logout">
+    <section class="section-logout" [ngClass]="{'hidden': !showLogout}">
         <button class="butt-general butt-logout" (click)="logout()">Logout <i-feather name="log-out" class="icon"></i-feather></button>
     </section>
 

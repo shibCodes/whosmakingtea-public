@@ -36,6 +36,7 @@ export class UserListComponent implements OnInit {
     pickPersonDisabled: boolean = true;
     addVisible: boolean = false;
     addDisabled: boolean = false;
+    newPersonAdded: boolean = false;
 
     constructor(private dataService: DataService, private firebaseService: FirebaseService) { }
 
@@ -53,8 +54,7 @@ export class UserListComponent implements OnInit {
 
     ngAfterViewInit() {
 		this.inputElements.changes.subscribe((changes) => {
-            // TODO: don't run this on list change
-            if (this.currentParticipants != undefined) {
+            if (this.currentParticipants != undefined && this.newPersonAdded) {
                 this.peopleArrayRendered();
             }	
 		});
@@ -120,6 +120,8 @@ export class UserListComponent implements OnInit {
 
             this.currentParticipants.push(newParticipant);
 
+            this.newPersonAdded = true;
+
             if (this.currentParticipants.length >= 2) {
                 this.pickPersonDisabled = false;
                 this.pickPersonVisible = true;
@@ -138,6 +140,7 @@ export class UserListComponent implements OnInit {
 
     updateParticipant(personIndex: number) {
         let participant = this.currentParticipants[personIndex];
+        this.newPersonAdded = false;
 
         if (participant != undefined) {
             this.firebaseService.updateParticipant(this.selectedList.id, participant);
