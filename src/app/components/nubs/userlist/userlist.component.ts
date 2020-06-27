@@ -20,6 +20,7 @@ export class UserListComponent implements OnInit {
     allListsSubscription: Subscription;
     selectedListSubscription: Subscription;
     selectedList: List;
+    allLists: List[];
     currentParticipants: Participant[];
     itemToDelete: ItemToDelete;
     selectedPerson: Participant;
@@ -134,23 +135,11 @@ export class UserListComponent implements OnInit {
     }
 
     updateParticipant(personIndex: number) {
+        let participant = this.currentParticipants[personIndex];
 
-       // let updateTimeout = setTimeout(() => {
-
-            console.log("update participant!");
-
-            let participant = this.currentParticipants[personIndex];
-
-            console.log(participant);
-
-            if (participant != undefined) {
-                this.firebaseService.updateParticipant(this.selectedList.id, participant);
-            }
-
-          //  clearTimeout(updateTimeout);
-
-        //}, 1000);
-        
+        if (participant != undefined) {
+            this.firebaseService.updateParticipant(this.selectedList.id, participant);
+        }
     }
 
     deleteParticipant(personIndex: number) {
@@ -277,8 +266,6 @@ export class UserListComponent implements OnInit {
 
     teaMade() {
 
-        console.log(this.selectedPerson);
-
         for (var i = 0; i < this.currentParticipants.length; i++) {
 
             this.currentParticipants[i].last = false;
@@ -369,6 +356,9 @@ export class UserListComponent implements OnInit {
     private updateAllLists(lists: List[]) {
 
         if (lists != undefined) {
+
+            this.allLists = lists;
+
             if (lists.length <= 0) {
                 this.instructionMessage = instructionMessages.noLists;
                 this.listState = listState.noLists;
@@ -386,14 +376,27 @@ export class UserListComponent implements OnInit {
 
         this.selectedList = list;
 
-        if (list.id != undefined) {
+        if (list.id != undefined && list.participants == undefined) {
             this.isLoading = true;
             this.firebaseService.getListParticipants(list.id)
                 .then((allParticipants: Participant[]) => {
+                    this.saveParticipantsToList(allParticipants);
                     this.organiseParticipants(allParticipants);
                 });
         }
+        else if (list.participants != undefined) {
+            this.organiseParticipants(list.participants);
+        }
 
+    }
+
+    private saveParticipantsToList(participants: Participant[]) {
+        this.selectedList.participants = participants;
+        for (let i = 0; i < this.allLists.length; i++) {
+            if (this.selectedList.id == this.allLists[i].id) {
+                this.allLists[i].participants = participants;
+            }
+        }
     }
 
     private organiseParticipants(participants: Participant[]) {
