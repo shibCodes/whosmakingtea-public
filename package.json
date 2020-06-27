@@ -24,6 +24,7 @@
     "firebase": "^7.14.1",
     "ngx-perfect-scrollbar": "^9.0.0",
     "rxjs": "~6.5.4",
+    "three": "^0.118.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },

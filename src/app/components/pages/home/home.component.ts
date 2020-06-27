@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PickerComponent } from '../../nubs/picker/picker.component';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { ThreeService } from 'src/app/services/three.service';
 
 @Component({
 	selector: 'home-page',
@@ -15,12 +16,11 @@ export class HomeComponent implements AfterViewInit {
 	hidePage: boolean = false;
 
 	constructor(
-		private router: Router,
-		private firebaseService: FirebaseService
+		private threeService: ThreeService
 	) { }
 
     ngAfterViewInit() {
-       //	this.firebaseService.isUserAuthenticated();  
+       this.threeService.init();
 	}
 	
 	onHideTagline(hideTagline) {
