@@ -2,9 +2,8 @@ import { Component, OnInit, ViewChildren, QueryList, ElementRef } from '@angular
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { List } from 'src/app/core/List';
 import { Router } from '@angular/router';
-import { PopupService } from 'src/app/services/popup.service';
-import { Subscription } from 'rxjs';
-import { isNgTemplate } from '@angular/compiler';
+import { ItemToDelete } from 'src/app/core/ItemToDelete';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
     selector: 'sidenav',
@@ -13,7 +12,7 @@ import { isNgTemplate } from '@angular/compiler';
 })
 export class SideNavComponent implements OnInit {
     @ViewChildren('sidebarlists') sidebarLists: QueryList<ElementRef>;
-    deleteListSubscription: Subscription;
+    //deleteListSubscription: Subscription;
     username: string;
     showAddNewList: boolean = false;
     addListLoading: boolean = false;
@@ -22,17 +21,13 @@ export class SideNavComponent implements OnInit {
     listName: string;
     currentListName: string;
     allLists: List[] = [];
+    itemToDelete: ItemToDelete;
+    showDeletePopup: boolean = false;
+    isLoading: boolean = true;
 
-    constructor(private firebaseService: FirebaseService, private router: Router, private popupService: PopupService) { }
+    constructor(private firebaseService: FirebaseService, private dataService: DataService, private router: Router) { }
 
     ngOnInit(): void {
-
-        this.deleteListSubscription = this.popupService.deleteListObservable.subscribe((deletedList) => {
-            console.log(deletedList);
-            if (this.allLists.length > 0) {
-                this.removeList(deletedList);
-            }
-        });
 
         this.firebaseService.getUserData().then((user) => {
 
@@ -47,11 +42,17 @@ export class SideNavComponent implements OnInit {
     }
 
     organiseAllLists(lists: List[]) {
+
         this.allLists = lists;
+
+        this.dataService.updateAllLists(lists);
+        this.findSelectedList();
 
         if (this.allLists.length >= 5) {
             this.listLimitReached = true;
         }
+
+        this.isLoading = false;
 
     }
 
@@ -139,24 +140,49 @@ export class SideNavComponent implements OnInit {
         this.deselectAllSelected();
         this.allLists[listIndex].selected = true;
         localStorage.setItem("selectedListID", this.allLists[listIndex].id);
+        this.dataService.updateSelectedList(this.allLists[listIndex]);
 
     }
 
     deleteList(listIndex: number) {
 
-        let list = this.allLists[listIndex];
-
-        let popup = {
-            "type": "list",
-            "show": true,
-            "item": list
+        let itemToDelete: ItemToDelete = {
+            id: this.allLists[listIndex].id,
+            title: this.allLists[listIndex].name,
+            type: "list",
+            list: this.allLists[listIndex]
         }
 
-        this.popupService.updateShowPopup(popup);
+        this.itemToDelete = itemToDelete;
+
+        this.showDeletePopup = true;
 
     }
 
-    
+    removeList(list: List) {
+
+        this.showDeletePopup = false;
+
+        for (var i = 0; i < this.allLists.length; i++) {
+
+            if (this.allLists[i].id == list.id) {
+                this.allLists.splice(i, 1);
+                break;
+            }
+
+        }
+
+        this.setSelectedList(0);
+
+        if (this.allLists.length < 5) {
+            this.listLimitReached = false;
+        }
+
+    }
+
+    closePopup(event: boolean) {
+        this.showDeletePopup = event;
+    }
 
     logout() {
         this.firebaseService.logoutUser().then(() => {
@@ -189,25 +215,12 @@ export class SideNavComponent implements OnInit {
 
     }
 
-    private removeList(list: List) {
-
-        for (var i = 0; i < this.allLists.length; i++) {
-
-            if (this.allLists[i].id == list.id) {
-                this.allLists.splice(i, 1);
+    private findSelectedList() {
+        for (let i = 0; i < this.allLists.length; i++) {
+            if (this.allLists[i].selected) {
+                this.dataService.updateSelectedList(this.allLists[i]);
                 break;
             }
-
         }
-
-        this.popupService.updateDeleteStatus('done');
-
-        this.setSelectedList(0);
-
-        if (this.allLists.length < 5) {
-            this.listLimitReached = false;
-        }
-
     }
-
 }

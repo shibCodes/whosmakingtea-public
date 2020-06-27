@@ -1,11 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { DeclareFunctionStmt } from '../../../../../node_modules/@angular/compiler';
-import { log } from 'util';
-import { PopupService } from '../../../services/popup.service';
+import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { SideNavComponent } from '../sidenav/sidenav.component';
+import { ItemToDelete } from 'src/app/core/ItemToDelete';
+import { List } from 'src/app/core/List';
+import { Participant } from 'src/app/core/Participant';
+
 
 @Component({
     selector: 'popup-new',
@@ -13,99 +11,73 @@ import { SideNavComponent } from '../sidenav/sidenav.component';
     styleUrls: ['./popup.component.scss']
 })
 
-export class PopupComponent implements OnInit {
-    showPopupSubscription: Subscription;
-    deleteStatusSubscription: Subscription;
-    deleteListLine1: string = "Are you sure you want to delete the list ";
-    deleteUserLine1: string = "Are you sure you want to delete the user ";
-    deleteListLine2: string = "If you hit delete there's no way back! It's gone for good! No take-backsies!";
-    deleteUserLine2: string = "If you hit delete there's no way back! They're gone for good! No take-backsies!";
-    textLine1: string = undefined;
-    textLine2: string = undefined;
-    itemName: string = undefined;
-    selectedList = undefined;
-    showPopup: boolean = false;
-    popupType: string = "list";
-    popupItem: any = {};
+export class PopupComponent {
+    @Input() itemToDelete: ItemToDelete;
+    @Input() showPopup: boolean;
+    @Output() listDeletionComplete: EventEmitter<List> = new EventEmitter(false);
+    @Output() participantDeletionComplete: EventEmitter<Participant> = new EventEmitter(false);
+    @Output() closePopup: EventEmitter<boolean> = new EventEmitter(true);
     deleteStatus: string = "idle";
+    backgroundFadeIn: boolean = false;
+    makePopupVisible: boolean = false;
+    disappear: boolean = true;
 
-    username: string;
-
-    constructor(
-        private firebaseService: FirebaseService,
-        private popupService: PopupService
-    ) { }
-
-
-    ngOnInit() {
-
-        console.log("popup yea!");
-
-        this.textLine1 = this.deleteListLine1;
-        this.textLine2 = this.deleteListLine2;
-        this.username = localStorage.getItem("username");
-
-        this.showPopupSubscription = this.popupService.showPopupObservable.subscribe(
-            showPopup => this.updatePopup(showPopup));
-
-        this.deleteStatusSubscription = this.popupService.deleteStatusObservable.subscribe(
-            deleteStatus => this.updateDeleteStatus(deleteStatus));
+    constructor(private firebaseService: FirebaseService) {
 
     }
 
-    updatePopup(popup) {
+    ngOnChanges(changes: SimpleChanges) {
 
-        console.log("update popup");
-        console.log(popup);
-
-        this.popupType = popup.type;
-        this.popupItem = popup.item;
-
-        if (this.popupType == "list") {
-            this.textLine1 = this.deleteListLine1;
-            this.textLine2 = this.deleteListLine2;
-            this.itemName = popup.item.name;
+        if (changes.showPopup.currentValue == true) { 
+            this.makePopupVisible = true;
+            setTimeout(() => {
+                this.backgroundFadeIn = true;
+                this.disappear = false;
+            }, 0);
+            
         }
         else {
-            this.textLine1 = this.deleteUserLine1;
-            this.textLine2 = this.deleteUserLine2;
-            this.itemName = popup.name;
+            this.backgroundFadeIn = false;
+            this.disappear = true;
+            setTimeout(() => {
+                this.makePopupVisible = false;    
+            }, 200);
         }
 
-        this.showPopup = popup.show;
-
     }
 
-    updateDeleteStatus(status) {
-        this.deleteStatus = status;
+    dismissPopup() {
+        this.closePopup.emit(false);
     }
 
-    closePopup() {
-        this.showPopup = false;
-    }
+    deleteItem() {
 
-    delete() {
+        this.deleteStatus = 'processing';
 
-        this.popupService.updateDeleteStatus('processing');
-
-        if (this.popupType == "list") {         
-            this.firebaseService.deleteList(this.popupItem)
+        if (this.itemToDelete.type == "list") {         
+            this.firebaseService.deleteList(this.itemToDelete.list)
                 .then(() => {
-                    this.popupService.updateDeleteList(this.popupItem);
-                    this.resetPopup();
+                    this.listDeletionComplete.emit(this.itemToDelete.list);
+                    this.deleteStatus = "idle";
+                })
+                .catch((error) => {
+                    this.handleError(error);
                 });
         }
         else {
-            //this.popupService.updateDeleteUser(this.popupItem);
+            this.firebaseService.deleteParticipant(this.itemToDelete.listID, this.itemToDelete.participant)
+                .then(() => {
+                    console.log("yee");
+                    this.participantDeletionComplete.emit(this.itemToDelete.participant);
+                    this.deleteStatus = "idle";
+                })
+                .catch((error) => {
+                    this.handleError(error);
+                });
         }
-
     }
 
-    resetPopup() {
-
-        this.closePopup();
-        this.deleteStatus = 'idle';
-        this.popupType = undefined;
+    private handleError(error) {
 
     }
 }

@@ -238,8 +238,6 @@ export class FirebaseService {
 
         let resolver = (resolve, reject) => {
 
-            console.log(generatedID);
-
             let listRef = this.db.collection("users").doc(this.user.uid).collection("lists").doc(generatedID);
 
             listRef.get().then((list) => {
@@ -249,7 +247,6 @@ export class FirebaseService {
                         .catch(reject);
                 }
                 else {
-                    console.log("NO");
                     this.getEveryListEver(listObj)
                         .then(resolve)
                         .catch(reject);
@@ -313,10 +310,105 @@ export class FirebaseService {
 
     }
 
+    getListParticipants(listID: string) {
+
+        let resolver = (resolve, reject) => {
+
+            let participantsRef = this.db.collection("users").doc(this.user.uid).collection("lists").doc(listID).collection("participants");
+
+            participantsRef.get()
+                .then((participants) => {
+
+                    let allParticipants: Participant[] = [];
+
+                    if (participants.docs.length <= 0) {
+                        resolve(allParticipants);
+                    }
+                    else {
+                        participants.forEach((participant) => {
+
+                            let newParticipant: Participant = {
+                                id: participant.id,
+                                name: participant.data().name,
+                                made: participant.data().made,
+                                drank: participant.data().drank,
+                                last: participant.data().last,
+                                selected: participant.data().selected
+                            }
+
+                            allParticipants.push(newParticipant);
+
+                        });
+
+                        resolve(allParticipants);
+                    }
+
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+
+
+        }
+
+        return new Promise(resolver);
+
+    }
+
+    addNewParticipant(listID: string, participant: Participant) {
+
+        let resolver = (resolve, reject) => {
+
+            let participantsRef = this.db.collection("users").doc(this.user.uid).collection("lists").doc(listID).collection("participants")
+
+            participantsRef.add(participant)
+                .then((participantRef) => {
+                    resolve(participantRef);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+
+        }
+
+        return new Promise(resolver);
+
+    }
+
+    updateParticipant(listID: string, participant: Participant) {
+
+        let resolver = (resolve, reject) => {
+
+            let participantRef = this.db.collection("users").doc(this.user.uid).collection("lists").doc(listID).collection("participants").doc(participant.id);
+
+            participantRef.set(participant)
+                .then(resolve)
+                .catch(reject);
+
+        }
+
+        return new Promise(resolver);
+
+    }
+
+    deleteParticipant(listID: string, participant: Participant) {
+
+        let resolver = (resolve, reject) => {
+
+            let participantRef = this.db.collection("users").doc(this.user.uid).collection("lists").doc(listID).collection("participants").doc(participant.id);
+
+            participantRef.delete()
+                .then(resolve)
+                .catch(reject);
+
+        }
+
+        return new Promise(resolver);
+
+    }
+
 
     getListDataWithParticipants() {
-
-        console.log(this.user.uid);
 
         let lists: List[] = [];
         let listsCollectionRef = this.db.collection("users").doc(this.user.uid).collection("lists");
@@ -355,8 +447,6 @@ export class FirebaseService {
                                 listObj.participants.push(participantObj);
                             });
                         });
-
-                    console.log(listObj);
 
                 });
             });

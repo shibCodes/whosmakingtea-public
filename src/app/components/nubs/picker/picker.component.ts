@@ -8,7 +8,7 @@ import { Person } from 'src/app/core/Person';
 })
 
 export class PickerComponent implements AfterViewInit {
-	@ViewChildren('input') inputElements: QueryList<ElementRef>
+	@ViewChildren('input') inputElements: QueryList<ElementRef>;
 	@Output() hideTagline: EventEmitter<boolean> = new EventEmitter(false);
 	allPeople: Person[] = [];
 	instructionMessage: string = "Add a bunch of people and we’ll pick a random person for you!";

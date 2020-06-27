@@ -1,3 +1,60 @@
 <section class="userlist">
     <i-feather name="menu" class="icon ico-menu" (click)="toggleMenu()"></i-feather>
+
+    <div class="intro-text" [ngClass]="{'visible': !isLoading, 'hidden': hideIntroText}">
+        <p class="no-users-text">{{instructionMessage}}</p>
+        <p class="rounds-made-text" [hidden]="noLists == true" [ngClass]="{'hidden': hideList || noPeople}">You guys have made {{selectedList?.totalRuns}} rounds! Keep it up!</p>
+        <div class="error" (hidden)="showError" [ngClass]="{ 'toggleUp': showError }"><i-feather name="alert-circle" class="icon"></i-feather><p>{{errorMessage}}</p></div>
+    </div>
+
+    <div class="list-wrap" [ngClass]="{'hidden': hideList, 'visible': !isLoading}">
+
+        <div class="users-wrap" [perfectScrollbar]>
+
+            <div class="user" *ngFor="let user of currentParticipants; let i = index" [ngClass]="{'deselected': !user.selected}">
+                <div class="teasmade-graph" [ngStyle]="{'width': calculateWidth(i)}"></div>
+                <div class="user-deets">
+                    <i-feather name="check-circle" class="icon" [ngClass]="{'hidden': !user.selected}" [hidden]="!user.selected" (click)="togglePerson(i)"></i-feather>
+                    <i-feather name="circle" class="icon" [ngClass]="{'hidden': user.selected}" [hidden]="user.selected" (click)="togglePerson(i)"></i-feather>
+                    <input type="text" class="name" [(ngModel)]="user.name" (blur)="updateParticipant(i)" #input /> 
+                    <span class="user-stats">
+                        <div class="stats">drunk: {{user.drank}}</div>
+                        <div class="stats">made: {{user.made}}</div>
+                    </span>
+                    <i-feather name="x-circle" class="icon" (click)="deleteParticipant(i)"></i-feather>
+                </div>
+            </div>
+
+        </div>
+        
+        <button class="butt-add butt-general" (click)="addParticipant()" [hidden]="!addVisible">Add <i-feather name="plus-circle" class="icon"></i-feather></button> 
+        <button class="butt-pick butt-general toggleUp" (click)="pickParticipant()" [disabled]="pickPersonDisabled" [hidden]="!pickPersonVisible">Pick!</button>
+
+    </div>
+
+    
+
+    <div class="loading-overlay" *ngIf="isLoading">
+        <div class="intro-text visible" *ngIf="isPicking">
+            {{instructionMessage}}
+        </div>
+        <loadyspin></loadyspin>
+    </div>
+
+    <div class="selection-wrap" [ngClass]="{'hidden': hideSelection}">
+        
+        <div class="selected-name">{{selectedPersonName}}</div>
+        
+        <div class="button-wrap">
+            <button class="butt-pickagain butt-general" (click)="pickParticipant()">Pick again <i-feather name="refresh-cw" class="icon"></i-feather></button>
+            <button class="butt-addmore butt-general" (click)="backToList()">Back to list <i-feather name="plus-circle" class="icon"></i-feather></button>
+        </div>
+
+        <button class="butt-teamade butt-general toggleUp" (click)="teaMade()" [disabled]="pickPersonDisabled" [hidden]="!pickPersonVisible">{{selectedPersonName}} made tea!</button>
+        
+    </div>
+
+    <popup-new [itemToDelete]="itemToDelete" [showPopup]="showDeletePopup" (closePopup)="closePopup($event)" (participantDeletionComplete)="removeParticipant($event)"></popup-new>
+
+    
 </section>

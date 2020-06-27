@@ -16,6 +16,7 @@
                 <i-feather name="trash-2" class="function" (click)="deleteList(i)"></i-feather>
             </div>
         </div>
+
     </div>
 
     <div class="sidebar-add" [hidden]="!showAddNewList">
@@ -31,4 +32,7 @@
     <section class="section-logout">
         <button class="butt-general butt-logout" (click)="logout()">Logout <i-feather name="log-out" class="icon"></i-feather></button>
     </section>
+
+    <popup-new [itemToDelete]="itemToDelete" [showPopup]="showDeletePopup" (closePopup)="closePopup($event)" (listDeletionComplete)="removeList($event)"></popup-new>
+
 </nav>
