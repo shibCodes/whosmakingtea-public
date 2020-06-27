@@ -376,6 +376,9 @@ export class UserListComponent implements OnInit {
 
     private updateSelectedList(list: List) {
 
+        this.menuOpen = false;
+        this.showMenu.emit(this.menuOpen);
+
         this.selectedList = list;
 
         if (list != undefined && list.id != undefined && list.participants == undefined) {
