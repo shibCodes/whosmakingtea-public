@@ -282,21 +282,18 @@ export class UserListComponent implements OnInit {
 
         this.selectedList.totalRuns = this.selectedList.totalRuns + 1;
 
-        this.updateList();
-        this.updateParticipants();
-
-        this.instructionMessage = instructionMessages.default;
-        this.listState = listState.default;
+        this.firebaseService.saveTeaRoundResults(this.selectedList, this.currentParticipants)
+            .then(() => {
+                console.log("saved!");
+                this.instructionMessage = instructionMessages.default;
+                this.listState = listState.default;
+            })
+            .catch((error) => {
+                this.handleError(error);
+            });
 
     }
 
-    private updateList() {
-
-    }
-
-    private updateParticipants() {
-        
-    }
 
     private showPickedParticipant(participant: Participant) {
         this.isLoading = false;
