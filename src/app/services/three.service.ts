@@ -53,10 +53,10 @@ export class ThreeService {
     // setting up the main renderer. 
     private initRenderer() {
         // if you want a pixely look, turn off antialias. 
-        this.m_renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        this.m_renderer = new THREE.WebGLRenderer( { alpha: true });
         this.updateDisplay();
         this.m_renderer.setClearColor(0x000000, 0);
-        this.m_renderer.shadowMap.enabled = true;
+       // this.m_renderer.shadowMap.enabled = true;
         var element = document.querySelector(".section-home").appendChild(this.m_renderer.domElement);
         element.className = "canvas";
 
@@ -94,7 +94,7 @@ export class ThreeService {
         this.m_fog = new THREE.Fog(0x091024, 1, 50);
         this.m_directionalLight = new THREE.DirectionalLight(0xffffff, 2.0);
 
-        this.m_directionalLight.castShadow = true;
+       // this.m_directionalLight.castShadow = true;
         this.m_scene.fog = this.m_fog;
 
         this.m_scene.add(this.m_directionalLight);
@@ -130,8 +130,8 @@ export class ThreeService {
         this.m_spawnedAsset = this.m_scene.add(object);
         object.traverse(function (node) {
             if (node.isMesh) {
-                node.castShadow = true;
-                node.receiveShadow = true;
+               // node.castShadow = true;
+                //node.receiveShadow = true;
             }
         });
         this.playAnimation();
