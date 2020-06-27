@@ -122,7 +122,6 @@ export class SideNavComponent implements OnInit {
 
         this.firebaseService.addNewList(newListObj, generatedID)
             .then((listObj: List) => {
-                console.log(listObj);
                 this.addListLoading = false;
                 this.allLists.push(listObj);
                 this.toggleAddNewList(false);

@@ -6,7 +6,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
+    //position: relative;
 
     .ico-menu {
         position: absolute;
@@ -209,4 +209,8 @@
 
 .hidden, hidden {
     display: none!important;
+}
+
+.loading-overlay {
+    margin-left: 240px;
 }
