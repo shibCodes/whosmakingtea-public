@@ -25,7 +25,7 @@ export class ThreeService {
     m_defaultObjectRotation = .3; // 0-1 range mapped 0-360
     m_maxObjectRotation = 0.1; // 0-1 range mapped 0-360 
     m_sensitivity = 0.1; // mouse sensitivity. 
-    m_renderScale = 2; // by default 1x res produces a pixely look. feel free to mess with ths.
+    m_renderScale = 1; // by default 1x res produces a pixely look. feel free to mess with ths.
 
     init() {
         document.addEventListener('mousemove', this.onDocumentMouseMove.bind(this), false);
@@ -42,12 +42,12 @@ export class ThreeService {
     // camera needs to be in a position away from 0,0,0 to properly render the object.
     // all objects added to the scene are added at x:0, y:0, z:0
     private setCameraPosition() {
-        this.m_camera.position.z = 8;
-        this.m_camera.position.y = 3.5;
-        this.m_camera.position.x = -.3;
+        this.m_camera.position.z = 5;
+        this.m_camera.position.y = 3;
+        this.m_camera.position.x = 0;
 
         // angling the camera down to look at the cup (provides a nice 3/4 view.)
-        this.m_camera.rotation.x = -0.3;
+        this.m_camera.rotation.x = -0.5;
     }
 
     // setting up the main renderer. 
