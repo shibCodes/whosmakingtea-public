@@ -103,7 +103,7 @@ button {
 
 }
 
-.error {
+.error, .success {
     border: 1px solid $colourError;
     border-radius: 40px;
     //padding: 10px;
@@ -144,6 +144,11 @@ button {
         margin-bottom: 20px;
         opacity: 1;
     }
+}
+
+.success {
+    border: 1px solid $colourSuccess;
+    color: $colourSuccess;
 }
 
 .version {

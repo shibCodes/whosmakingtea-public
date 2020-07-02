@@ -41,6 +41,24 @@ export class FirebaseService {
 
     }
 
+    sendPasswordResetEmail(email) {
+
+        let resolver = (resolve, reject) => {
+
+            firebase.auth().sendPasswordResetEmail(email)
+                .then(() => {
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+
+        }
+
+        return new Promise(resolver);
+
+    }
+
     updateDisplayName(name) {
 
         let resolver = (resolve, reject) => {
