@@ -86,6 +86,15 @@ export class LoginComponent implements OnInit {
 		this.hideHeader = focussed;
 	}
 
+	forgotPassword() {
+		this.hideLogin = true;
+
+		let pickerTimeout = setTimeout(() => {
+			this.router.navigate(['/forgotpassword']);
+			clearTimeout(pickerTimeout);
+		}, 1000);
+	}
+
 	private goToDashboard() {
 		this.router.navigate(['dashboard']);
 	}
