@@ -1,4 +1,5 @@
 <section class="section-dashboard" [ngClass]="{'menu-open': openMenu}">
-    <sidenav></sidenav>
-    <userlist (showMenu)="toggleMenu($event)"></userlist>
+    <sidenav (showProfile)="toggleProfile($event)"></sidenav>
+    <userlist (showMenu)="toggleMenu($event)" [ngClass]="{'visible': !showProfile}"></userlist>
+    <user [ngClass]="{'visible': showProfile}"></user>
 </section>

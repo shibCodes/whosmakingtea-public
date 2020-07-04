@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
     openMenu: boolean = false;
+    showProfile: boolean = false;
 
     constructor() { }
 
@@ -15,6 +16,10 @@ export class DashboardComponent implements OnInit {
 
     toggleMenu(event: boolean) {
         this.openMenu = event;
+    }
+
+    toggleProfile(event: boolean) {
+        this.showProfile = event;
     }
 
 }

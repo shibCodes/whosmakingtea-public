@@ -1,0 +1,33 @@
+<section class="user">
+
+    <div class="intro">
+        <h1>Profile</h1>
+        <p>Here's your info! You can update if you like! :)</p>
+    </div>
+    
+    <div class="error" (hidden)="showError" [ngClass]="{ 'toggleUp': showError }">
+        <i-feather name="alert-circle" class="icon"></i-feather>
+        <p>{{errorMessage}}</p>
+    </div>
+
+    <div class="success" (hidden)="showSuccess" [ngClass]="{ 'toggleUp': showSuccess }">
+        <i-feather name="smile" class="icon"></i-feather>
+        <p>{{successMessage}}</p>
+    </div>
+
+    <section class="detail">
+        <h2>Username</h2>
+        <div class="input-wrap">
+            <div class="field">
+                <input #usernameInput type="text" class="name" placeholder="username..." [(ngModel)]="username" [disabled]="usernameDisabled"/>
+                <button class="icon" (click)="editUsername()" [ngClass]="{'visible': usernameDisabled}"><i-feather name="edit-3" class="icon"></i-feather></button>
+                <button class="icon" (click)="saveUsername()" [ngClass]="{'visible': !usernameDisabled && !savingUsername}"><i-feather name="save" class="icon"></i-feather></button>
+                <span *ngIf="savingUsername" class="processing icon"></span>
+            </div>
+        </div>
+        
+    </section>
+    
+
+
+</section>

@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ElementRef, Output, EventEmitter } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { List } from 'src/app/core/List';
 import { Router } from '@angular/router';
 import { ItemToDelete } from 'src/app/core/ItemToDelete';
 import { DataService } from 'src/app/services/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'sidenav',
@@ -12,7 +13,9 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class SideNavComponent implements OnInit {
     @ViewChildren('sidebarlists') sidebarLists: QueryList<ElementRef>;
-    //deleteListSubscription: Subscription;
+    @Output() showProfile: EventEmitter<boolean> = new EventEmitter();
+    updateUsernameSubscription: Subscription;
+    profileVisible: boolean = false;
     username: string;
     showAddNewList: boolean = false;
     addListLoading: boolean = false;
@@ -38,6 +41,14 @@ export class SideNavComponent implements OnInit {
                 .then(this.organiseAllLists.bind(this))
                 .catch(this.handleError.bind(this));
 
+        });
+
+        this.updateUsernameSubscription = this.dataService.usernameUpdatedObservable.subscribe((updated: boolean) => {
+            if (updated) {
+                this.firebaseService.getUserData().then((user) => {
+                    this.username = (user as any).displayName;
+                });
+            }  
         });
 
     }
@@ -144,6 +155,8 @@ export class SideNavComponent implements OnInit {
     }
 
     setSelectedList(listIndex: number) {
+        this.showProfile.emit(false);
+        this.profileVisible = false;
 
         this.deselectAllSelected();
         this.allLists[listIndex].selected = true;
@@ -196,6 +209,11 @@ export class SideNavComponent implements OnInit {
         this.firebaseService.logoutUser().then(() => {
             this.router.navigateByUrl('');
         })
+    }
+
+    showUserProfile() {
+        this.profileVisible = true;
+        this.showProfile.emit(true);
     }
 
     handleError(error: any) {
