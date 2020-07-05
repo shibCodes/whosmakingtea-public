@@ -1,35 +1,39 @@
 <nav>
-    <div class="sidebar-welcome">
-        <div class="welcome-name">Hi, {{username}}!</div>
-        <div class="welcome-intro">Here are your saved lists...</div>
-    </div>
-    <div class="sidebar-lists">
-        <div class="sidebar-list" #sidebarlists *ngFor="let list of allLists; let i = index">
-            <a class="list" [ngClass]="{'selected': list.selected, 'hidden': list.showEdit}" (click)="setSelectedList(i)">{{list.name}}</a>
-            <input [hidden]="!list.showEdit" [(ngModel)]="list.name" maxlength="15"/>
-            <i-feather name="more-horizontal" class="icon" [hidden]="list.showMore" [ngClass]="{'selected': list.selected && !list.showMore}" (click)="toggleListOptions(i)"></i-feather>
-            <i-feather name="x" class="icon" [hidden]="!list.showMore" [ngClass]="{'selected': list.selected && list.showMore}" (click)="toggleListOptions(i)"></i-feather>
-            <div class="showmore-wrap" [ngClass]="{'visible': list.showMore}">
-                <span *ngIf="editListLoading" class="processing function"></span>
-                <i-feather name="edit-3" class="function" [ngClass]="{'hidden': list.showEdit}" (click)="editListName(i)"></i-feather>
-                <i-feather *ngIf="!editListLoading" name="save" class="function" [ngClass]="{'hidden': !list.showEdit}" (click)="saveListName(i)"></i-feather>
-                <i-feather name="trash-2" class="function" (click)="deleteList(i)"></i-feather>
+    <div class="list-wrap">
+        <div class="sidebar-welcome">
+            <div class="welcome-name">Hi, {{username}}!</div>
+            <div class="welcome-intro">Here are your saved lists...</div>
+        </div>
+        <div class="sidebar-lists">
+            <div class="sidebar-list" #sidebarlists *ngFor="let list of allLists; let i = index">
+                <a class="list" [ngClass]="{'selected': list.selected, 'hidden': list.showEdit}" (click)="setSelectedList(i)">{{list.name}}</a>
+                <input [hidden]="!list.showEdit" [(ngModel)]="list.name" maxlength="15"/>
+                <i-feather name="more-horizontal" class="icon" [hidden]="list.showMore" [ngClass]="{'selected': list.selected && !list.showMore}" (click)="toggleListOptions(i)"></i-feather>
+                <i-feather name="x" class="icon" [hidden]="!list.showMore" [ngClass]="{'selected': list.selected && list.showMore}" (click)="toggleListOptions(i)"></i-feather>
+                <div class="showmore-wrap" [ngClass]="{'visible': list.showMore}">
+                    <span *ngIf="editListLoading" class="processing function"></span>
+                    <i-feather name="edit-3" class="function" [ngClass]="{'hidden': list.showEdit}" (click)="editListName(i)"></i-feather>
+                    <i-feather *ngIf="!editListLoading" name="save" class="function" [ngClass]="{'hidden': !list.showEdit}" (click)="saveListName(i)"></i-feather>
+                    <i-feather name="trash-2" class="function" (click)="deleteList(i)"></i-feather>
+                </div>
             </div>
+    
+        </div>
+    
+        <div class="sidebar-add" [hidden]="!showAddNewList">
+            <input #newlistname placeholder="List of awesome" maxlength="25" [(ngModel)]="listName" [disabled]="addListLoading"/>
+            <i-feather name="save" *ngIf="!addListLoading" class="icon" (click)="saveNewList()"></i-feather>
+            <span *ngIf="addListLoading" class="processing icon"></span>
+            {{newlistname.focus()}}
         </div>
 
+        <button *ngIf="!listLimitReached" class="butt-add butt-general" (click)="toggleAddNewList(true)" [ngClass]="{'hidden': showAddNewList}">New List <i-feather name="plus-circle" class="icon"></i-feather></button> 
+        <button class="butt-general butt-cancel" (click)="toggleAddNewList(false)" [ngClass]="{'hidden': !showAddNewList}">Cancel</button>
+
     </div>
-
-    <div class="sidebar-add" [hidden]="!showAddNewList">
-        <input #newlistname placeholder="List of awesome" maxlength="25" [(ngModel)]="listName" [disabled]="addListLoading"/>
-        <i-feather name="save" *ngIf="!addListLoading" class="icon" (click)="saveNewList()"></i-feather>
-        <span *ngIf="addListLoading" class="processing icon"></span>
-        {{newlistname.focus()}}
-    </div>
-
-    <button *ngIf="!listLimitReached" class="butt-add butt-general" (click)="toggleAddNewList(true)" [ngClass]="{'hidden': showAddNewList}">New List <i-feather name="plus-circle" class="icon"></i-feather></button> 
-    <button class="butt-general butt-cancel" (click)="toggleAddNewList(false)" [ngClass]="{'hidden': !showAddNewList}">Cancel</button>
-
+    
     <section class="section-logout" [ngClass]="{'hidden': !showLogout}">
+        <button class="butt-general butt-profile" (click)="showUserProfile()">{{username}} <i-feather name="settings" class="icon"></i-feather></button>
         <button class="butt-general butt-logout" (click)="logout()">Logout <i-feather name="log-out" class="icon"></i-feather></button>
     </section>
 
