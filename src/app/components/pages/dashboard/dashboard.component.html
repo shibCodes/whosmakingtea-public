@@ -1,5 +1,5 @@
 <section class="section-dashboard" [ngClass]="{'menu-open': openMenu}">
     <sidenav (showProfile)="toggleProfile($event)"></sidenav>
     <userlist (showMenu)="toggleMenu($event)" [ngClass]="{'visible': !showProfile}"></userlist>
-    <user [ngClass]="{'visible': showProfile}"></user>
+    <user (showMenu)="toggleMenu($event)" [ngClass]="{'visible': showProfile}"></user>
 </section>

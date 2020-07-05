@@ -21,9 +21,7 @@ export class DashboardComponent implements OnInit {
 
     toggleProfile(event: boolean) {
         this.showProfile = event;
-        if (!this.showProfile) {
-            this.dataService.updateProfileVisible(false);
-        }
+        this.dataService.updateProfileVisible(this.showProfile);
     }
 
 }

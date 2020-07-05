@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { DataService } from 'src/app/services/data.service';
 import { Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ export class UserComponent implements OnInit {
     @ViewChild('emailInput') emailInput: ElementRef;
     @ViewChild('currentPasswordInput') currentPasswordInput: ElementRef;
     @ViewChild('newPasswordInput') newPasswordInput: ElementRef;
+    @Output() showMenu: EventEmitter<boolean> = new EventEmitter();
     profileVisibleSubscription: Subscription;
     infoMessage: string = "Here's your info! You can edit if you like! :)";
     editInfo: boolean = false;
@@ -36,6 +37,7 @@ export class UserComponent implements OnInit {
     successMessage: string;
     showSuccess: boolean = false;
     editingPassword: boolean = false;
+    menuOpen: boolean = false;
 
     constructor(private firebaseService: FirebaseService, private dataService: DataService) { }
 
@@ -49,22 +51,33 @@ export class UserComponent implements OnInit {
         this.profileVisibleSubscription = this.dataService.profileVisibleObservable.subscribe((visible: boolean) => {
             if (!visible) {
                 this.resetProfile();
-            }  
+            }
+            else {
+                this.menuOpen = false;
+                this.showMenu.emit(this.menuOpen);
+            }
         });
     }
 
+    toggleMenu() {
+        this.menuOpen = !this.menuOpen;
+        this.showMenu.emit(this.menuOpen);
+    }
+
     toggleEditInfo(visible: boolean) {
+        this.editInfo = visible;
+
         if (visible) {
             this.infoMessage = "Enter your password to edit your info!";
+            setTimeout(() => {
+                this.currentPasswordInput.nativeElement.focus();
+            }, 0);
         }
         else {
             this.infoMessage = "Here's your info! You can edit if you like! :)";
         }
 
-        this.editInfo = visible;
-        setTimeout(() => {
-            this.currentPasswordInput.nativeElement.focus();
-        }, 0);
+        
     }
 
     saveCurrentPassword() {

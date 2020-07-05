@@ -2,6 +2,24 @@
 
 .user {
 
+    .ico-menu {
+        position: absolute;
+        top: 20px;
+        left: 260px;
+        transition: all 0.2s;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+    
+        &:hover {
+            transform: scale(1.2);
+        }
+    
+        @media all and (min-width: 769px) {
+            display: none;
+        }
+    }
+
     h1 {
         font-size: 2em;
     }
