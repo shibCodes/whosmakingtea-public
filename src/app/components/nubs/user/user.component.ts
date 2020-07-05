@@ -69,9 +69,9 @@ export class UserComponent implements OnInit {
 
         if (visible) {
             this.infoMessage = "Enter your password to edit your info!";
-            setTimeout(() => {
+            /*setTimeout(() => {
                 this.currentPasswordInput.nativeElement.focus();
-            }, 0);
+            }, 0);*/
         }
         else {
             this.infoMessage = "Here's your info! You can edit if you like! :)";
