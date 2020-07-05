@@ -2,32 +2,71 @@
 
     <div class="intro">
         <h1>Profile</h1>
-        <p>Here's your info! You can update if you like! :)</p>
+        <p>{{infoMessage}}</p>
+        <button (click)="toggleEditInfo(true)" class="butt-general butt-edit" *ngIf="!editInfo && !passwordConfirmed">Edit info<i-feather name="edit-3" class="icon"></i-feather></button>
+
+        <div class="error" (hidden)="showError" [ngClass]="{ 'toggleUp': showError }">
+            <i-feather name="alert-circle" class="icon"></i-feather>
+            <p>{{errorMessage}}</p>
+        </div>
+    
+        <div class="success" (hidden)="showSuccess" [ngClass]="{ 'toggleUp': showSuccess }">
+            <i-feather name="smile" class="icon"></i-feather>
+            <p>{{successMessage}}</p>
+        </div>
+
+        <div class="edit-details" *ngIf="editInfo && !passwordConfirmed">
+            <div class="input-wrap">
+                <div class="field">
+                    <input #currentPasswordInput type="password" class="name" placeholder="current password..." [(ngModel)]="currentPassword"/>
+                    <button class="icon" (click)="saveCurrentPassword()" [ngClass]="{'visible': !savingCurrentPassword }"><i-feather name="save" class="icon"></i-feather></button>
+                    <button class="icon close" (click)="toggleEditInfo()" [ngClass]="{'visible': !savingCurrentPassword }"><i-feather name="x" class="icon"></i-feather></button>
+                    <span *ngIf="savingCurrentPassword" class="processing icon"></span>
+                </div>
+            </div> 
+        </div>
+        
     </div>
     
-    <div class="error" (hidden)="showError" [ngClass]="{ 'toggleUp': showError }">
-        <i-feather name="alert-circle" class="icon"></i-feather>
-        <p>{{errorMessage}}</p>
-    </div>
 
-    <div class="success" (hidden)="showSuccess" [ngClass]="{ 'toggleUp': showSuccess }">
-        <i-feather name="smile" class="icon"></i-feather>
-        <p>{{successMessage}}</p>
-    </div>
-
-    <section class="detail">
+    <section class="detail" [ngClass]="{'disabled': !passwordConfirmed}">
         <h2>Username</h2>
         <div class="input-wrap">
             <div class="field">
                 <input #usernameInput type="text" class="name" placeholder="username..." [(ngModel)]="username" [disabled]="usernameDisabled"/>
-                <button class="icon" (click)="editUsername()" [ngClass]="{'visible': usernameDisabled}"><i-feather name="edit-3" class="icon"></i-feather></button>
+                <button class="icon" (click)="editUsername()" [ngClass]="{'visible': usernameDisabled && passwordConfirmed}"><i-feather name="edit-3" class="icon"></i-feather></button>
                 <button class="icon" (click)="saveUsername()" [ngClass]="{'visible': !usernameDisabled && !savingUsername}"><i-feather name="save" class="icon"></i-feather></button>
                 <span *ngIf="savingUsername" class="processing icon"></span>
             </div>
+        </div>       
+    </section>
+    
+    <section class="detail" [ngClass]="{'disabled': !passwordConfirmed}">
+        <h2>Email</h2>
+        <div class="input-wrap">
+            <div class="field">
+                <input #emailInput type="text" class="name" placeholder="email..." [(ngModel)]="email" [disabled]="emailDisabled"/>
+                <button class="icon" (click)="editEmail()" [ngClass]="{'visible': emailDisabled && passwordConfirmed }"><i-feather name="edit-3" class="icon"></i-feather></button>
+                <button class="icon" (click)="saveEmail()" [ngClass]="{'visible': !emailDisabled && !savingEmail}"><i-feather name="save" class="icon"></i-feather></button>
+                <span *ngIf="savingEmail" class="processing icon"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="detail password-detail" [ngClass]="{'disabled': !passwordConfirmed}">
+        <h2>Password</h2>
+        <button class="butt-general butt-updatepw" [disabled]="!passwordConfirmed" *ngIf="!editingPassword" (click)="changePassword()">Change password<i-feather name="lock" class="icon"></i-feather></button>
+        <div class="input-wrap" *ngIf="editingPassword">
+            <div class="field">
+                <input #newPasswordInput type="password" class="name" placeholder="new password..." [(ngModel)]="newPassword" [disabled]="newPasswordDisabled"/>
+            </div>
+            <div class="field">
+                <input #confirmNewPasswordInput type="password" class="name" placeholder="confirm new password..." [(ngModel)]="confirmNewPassword" [disabled]="newPasswordDisabled"/>
+            </div>
+            <button class="butt-general butt-savepw" *ngIf="editingPassword" (click)="savePassword()">Save<i-feather name="save" class="icon" *ngIf="!savingPassword" [disabled]="savingPassword"></i-feather><span *ngIf="savingPassword" class="processing icon"></span></button>
         </div>
         
     </section>
-    
 
 
 </section>

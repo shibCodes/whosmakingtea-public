@@ -14,6 +14,9 @@ export class DataService {
     private usernameUpdated = new BehaviorSubject<boolean>(false);
     usernameUpdatedObservable = this.usernameUpdated.asObservable();
 
+    private profileVisible = new BehaviorSubject<boolean>(false);
+    profileVisibleObservable = this.profileVisible.asObservable();
+
     updateAllLists(lists: List[]) {
         this.allLists.next(lists);
     }
@@ -24,6 +27,10 @@ export class DataService {
 
     updateUsernameUpdated(updated: boolean) {
         this.usernameUpdated.next(updated);
+    }
+
+    updateProfileVisible(visible: boolean) {
+        this.profileVisible.next(visible);
     }
 
 }

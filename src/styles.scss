@@ -136,6 +136,8 @@ button {
         margin: 0;
         padding-left: 10px;
         padding-top: 3px;
+        flex: 1;
+        text-align: center;
     }
 
     &.toggleUp {

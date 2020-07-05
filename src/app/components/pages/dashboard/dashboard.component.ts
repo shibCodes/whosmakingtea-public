@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -9,7 +10,7 @@ export class DashboardComponent implements OnInit {
     openMenu: boolean = false;
     showProfile: boolean = false;
 
-    constructor() { }
+    constructor(private dataService: DataService) { }
 
     ngOnInit(): void {
     }
@@ -20,6 +21,9 @@ export class DashboardComponent implements OnInit {
 
     toggleProfile(event: boolean) {
         this.showProfile = event;
+        if (!this.showProfile) {
+            this.dataService.updateProfileVisible(false);
+        }
     }
 
 }

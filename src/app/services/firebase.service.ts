@@ -77,6 +77,38 @@ export class FirebaseService {
 
     }
 
+    updateEmail(email: string) {
+
+        let resolver = (resolve, reject) => {
+
+            let user = firebase.auth().currentUser;
+
+            user.updateEmail(email)
+                .then(resolve)
+                .catch(reject);
+
+        }
+
+        return new Promise(resolver);
+
+    }
+
+    updatePassword(password: string) {
+
+        let resolver = (resolve, reject) => {
+
+            let user = firebase.auth().currentUser;
+
+            user.updatePassword(password)
+                .then(resolve)
+                .catch(reject);
+
+        }
+
+        return new Promise(resolver);
+
+    }
+
     loginUser(user) {
 
         let resolver = (resolve, reject) => {
@@ -105,6 +137,31 @@ export class FirebaseService {
                 })
                 .catch(() => {
                     reject(false);
+                })
+
+        }
+
+        return new Promise(resolver);
+
+    }
+
+    reauthenticateUser(email: string, password: string) {
+
+        let resolver = (resolve, reject) => {
+
+            let user = firebase.auth().currentUser;
+
+            let credential = firebase.auth.EmailAuthProvider.credential(
+                email, // references the user's email address
+                password
+            );
+
+            user.reauthenticateWithCredential(credential)
+                .then((res) => {
+                    resolve(res);
+                })
+                .catch((error) => {
+                    reject(error);
                 })
 
         }
