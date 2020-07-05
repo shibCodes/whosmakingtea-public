@@ -20,7 +20,7 @@
                 <div class="field">
                     <input #currentPasswordInput type="password" class="name" placeholder="current password..." [(ngModel)]="currentPassword"/>
                     <button class="icon" (click)="saveCurrentPassword()" [ngClass]="{'visible': !savingCurrentPassword }"><i-feather name="save" class="icon"></i-feather></button>
-                    <button class="icon close" (click)="toggleEditInfo()" [ngClass]="{'visible': !savingCurrentPassword }"><i-feather name="x" class="icon"></i-feather></button>
+                    <button class="icon close" (click)="toggleEditInfo(false)" [ngClass]="{'visible': !savingCurrentPassword }"><i-feather name="x" class="icon"></i-feather></button>
                     <span *ngIf="savingCurrentPassword" class="processing icon"></span>
                 </div>
             </div> 
@@ -63,7 +63,7 @@
             <div class="field">
                 <input #confirmNewPasswordInput type="password" class="name" placeholder="confirm new password..." [(ngModel)]="confirmNewPassword" [disabled]="newPasswordDisabled"/>
             </div>
-            <button class="butt-general butt-savepw" *ngIf="editingPassword" (click)="savePassword()">Save<i-feather name="save" class="icon" *ngIf="!savingPassword" [disabled]="savingPassword"></i-feather><span *ngIf="savingPassword" class="processing icon"></span></button>
+            <button class="butt-general butt-savepw" *ngIf="editingPassword" (click)="savePassword()" [disabled]="savingPassword">Save<i-feather name="save" class="icon" *ngIf="!savingPassword"></i-feather><span *ngIf="savingPassword" class="processing icon"></span></button>
         </div>
         
     </section>
