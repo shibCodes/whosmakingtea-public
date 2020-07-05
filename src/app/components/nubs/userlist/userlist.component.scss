@@ -16,16 +16,16 @@
         cursor: pointer;
         width: 30px;
         height: 30px;
-
+    
         &:hover {
             transform: scale(1.2);
         }
-
+    
         @media all and (min-width: 769px) {
             display: none;
         }
     }
-
+    
     .intro-text {
         opacity: 0;
         transition: opacity 0.3s;
