@@ -17,6 +17,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "firebase",
+              "@firebase/firestore",
+              "@firebase/database",
+              "@firebase/app",
+              "@firebase/component",
+              "@firebase/util"
+            ],
             "outputPath": "dist/whosmakingtea-firebase",
             "index": "src/index.html",
             "main": "src/main.ts",
