@@ -22,8 +22,6 @@ export class HomeComponent implements AfterViewInit {
     ngAfterViewInit() {
 		let isMobile = this.checkIsMobile();
 
-		console.log(isMobile);
-
 		if (!isMobile) {
 			this.threeService.init();
 		}

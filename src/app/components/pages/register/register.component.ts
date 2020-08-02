@@ -64,9 +64,6 @@ export class RegisterComponent implements OnInit {
 	
 			this.firebaseService.createNewUser(user)
 				.then((res) => {
-					console.log(res);
-					
-					
 					this.isLoading = false;
 					this.goToDashboard();
 				})

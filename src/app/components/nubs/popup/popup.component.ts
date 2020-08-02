@@ -67,7 +67,6 @@ export class PopupComponent {
         else {
             this.firebaseService.deleteParticipant(this.itemToDelete.listID, this.itemToDelete.participant)
                 .then(() => {
-                    console.log("yee");
                     this.participantDeletionComplete.emit(this.itemToDelete.participant);
                     this.deleteStatus = "idle";
                 })

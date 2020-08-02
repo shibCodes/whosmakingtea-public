@@ -32,7 +32,7 @@ export class ThreeService {
         window.addEventListener('resize', this.onWindowResize.bind(this), false);
 
         this.m_mouse = new THREE.Vector2();
-        console.log(this.m_mouse);
+        //console.log(this.m_mouse);
         this.m_scene = new THREE.Scene();
         this.m_camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.setCameraPosition();
@@ -162,7 +162,7 @@ export class ThreeService {
     }
 
     private reportAssetLoad(xhr) {
-        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        //console.log((xhr.loaded / xhr.total * 100) + '% loaded');
     }
     
     //------------------------------------------------------------------------------
