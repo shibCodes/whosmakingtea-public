@@ -34,6 +34,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/robots.txt",
+              "src/metaimage.png",
               {
                 "glob": "_redirects",
                 "input": "src",
