@@ -28,8 +28,8 @@ export class ThreeService {
     m_renderScale = 1; // by default 1x res produces a pixely look. feel free to mess with ths.
 
     init() {
-        document.addEventListener('mousemove', this.onDocumentMouseMove.bind(this), false);
-        window.addEventListener('resize', this.onWindowResize.bind(this), false);
+        document.addEventListener('mousemove', this.onDocumentMouseMove.bind(this), {passive: true});
+        window.addEventListener('resize', this.onWindowResize.bind(this), {passive: true});
 
         this.m_mouse = new THREE.Vector2();
         //console.log(this.m_mouse);
@@ -64,7 +64,7 @@ export class ThreeService {
     }
 
     private onDocumentMouseMove(event) {
-        event.preventDefault();
+        //event.preventDefault();
         this.m_mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.m_mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     }
