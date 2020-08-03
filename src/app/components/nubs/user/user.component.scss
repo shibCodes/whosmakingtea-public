@@ -81,6 +81,12 @@
         margin: 0 auto;
         text-align: center;
 
+        label {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .field {
             display: flex;
             flex-direction: row;

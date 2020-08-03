@@ -17,10 +17,12 @@
 
             <div class="input-wrap">
                 <div class="field">
-                    <input #email type="email" class="name" placeholder="email..." formControlName="email" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
+                    <label for="email">Email</label>
+                    <input #email id="email" type="email" class="name" placeholder="email..." formControlName="email" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
                 </div>
                 <div class="field">
-                    <input #password type="password" class="password" placeholder="password..." formControlName="password" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
+                    <label for="password">Password</label>
+                    <input #password id="password" type="password" class="password" placeholder="password..." formControlName="password" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
                 </div>
             </div>
 

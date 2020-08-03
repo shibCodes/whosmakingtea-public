@@ -57,6 +57,12 @@
             border-bottom: 2px solid rgba(255,255,255,0.2);
             padding: 0 10px;
             
+            label {
+                position: absolute;
+                opacity: 0;
+                pointer-events: none;
+            }
+
             .name {
                 font-size: 1.5em;
                 font-weight: 600;

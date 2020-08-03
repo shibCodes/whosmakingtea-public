@@ -7,7 +7,8 @@
         <div class="sidebar-lists">
             <div class="sidebar-list" #sidebarlists *ngFor="let list of allLists; let i = index">
                 <a class="list" [ngClass]="{'selected': list.selected, 'hidden': list.showEdit}" (click)="setSelectedList(i)">{{list.name}}</a>
-                <input [hidden]="!list.showEdit" [(ngModel)]="list.name" maxlength="15"/>
+                <label for="listname{{i}}">List Name</label>
+                <input id="listname{{i}}" [hidden]="!list.showEdit" [(ngModel)]="list.name" maxlength="15"/>
                 <i-feather name="more-horizontal" class="icon" [hidden]="list.showMore" [ngClass]="{'selected': list.selected && !list.showMore}" (click)="toggleListOptions(i)"></i-feather>
                 <i-feather name="x" class="icon" [hidden]="!list.showMore" [ngClass]="{'selected': list.selected && list.showMore}" (click)="toggleListOptions(i)"></i-feather>
                 <div class="showmore-wrap" [ngClass]="{'visible': list.showMore}">
@@ -21,7 +22,8 @@
         </div>
     
         <div class="sidebar-add" [hidden]="!showAddNewList">
-            <input #newlistname placeholder="List of awesome" maxlength="25" [(ngModel)]="listName" [disabled]="addListLoading"/>
+            <label for="addlist">New list name</label>
+            <input id="newlistname" #newlistname placeholder="List of awesome" maxlength="25" [(ngModel)]="listName" [disabled]="addListLoading"/>
             <i-feather name="save" *ngIf="!addListLoading" class="icon" (click)="saveNewList()"></i-feather>
             <span *ngIf="addListLoading" class="processing icon"></span>
             {{newlistname.focus()}}

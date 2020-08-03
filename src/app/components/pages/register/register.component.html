@@ -16,16 +16,20 @@
         
             <div class="input-wrap">
                 <div class="field">
-                    <input type="text" class="name" placeholder="name..." formControlName="name" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
+                    <label for="username">Username</label>
+                    <input id="username" type="text" class="name" placeholder="username..." formControlName="name" (focus)="formFocus(true)" (blur)="formFocus(false)" maxlength="15"/>
                 </div>
                 <div class="field">
-                    <input type="email" class="name" placeholder="email..." formControlName="email" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
+                    <label for="email">Email</label>
+                    <input id="email" type="email" class="name" placeholder="email..." formControlName="email" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
                 </div>
                 <div class="field">
-                    <input type="password" class="password" placeholder="password..." formControlName="password" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
+                    <label for="password">Password</label>
+                    <input id="password" type="password" class="password" placeholder="password..." formControlName="password" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
                 </div>
                 <div class="field">
-                    <input type="password" class="password" placeholder="confirm password..." formControlName="passwordConfirm" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
+                    <label for="confirmpassword">Confirm Password</label>
+                    <input id="confirmpassword" type="password" class="password" placeholder="confirm password..." formControlName="passwordConfirm" (focus)="formFocus(true)" (blur)="formFocus(false)"/>
                 </div>
             </div>
     

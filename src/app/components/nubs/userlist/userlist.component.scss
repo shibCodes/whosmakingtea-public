@@ -113,6 +113,12 @@
                     display: flex;
                     flex-direction: row;
                     align-items: center;
+
+                    label {
+                        position: absolute;
+                        opacity: 0;
+                        pointer-events: none;
+                    }
         
                     .name {
                         font-size: 1.5em;

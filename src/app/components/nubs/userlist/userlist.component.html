@@ -16,7 +16,8 @@
                 <div class="user-deets">
                     <i-feather name="check-circle" class="icon" [ngClass]="{'hidden': !user.selected}" [hidden]="!user.selected" (click)="togglePerson(i)"></i-feather>
                     <i-feather name="circle" class="icon" [ngClass]="{'hidden': user.selected}" [hidden]="user.selected" (click)="togglePerson(i)"></i-feather>
-                    <input type="text" class="name" [(ngModel)]="user.name" (blur)="updateParticipant(i)" #input /> 
+                    <label for="participant{{i}}">Participant</label>
+                    <input id="participant{{i}}"type="text" class="name" [(ngModel)]="user.name" (blur)="updateParticipant(i)" #input /> 
                     <span class="user-stats">
                         <div class="stats">drunk: {{user.drank}}</div>
                         <div class="stats">made: {{user.made}}</div>
