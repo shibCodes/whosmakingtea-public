@@ -1,0 +1,21 @@
+<section class="popup" [ngClass]="{'visible': makePopupVisible, 'appear': backgroundFadeIn}">
+
+    <div class="popup-wrap" [ngClass]="{'disappear': disappear}">
+        <div class="text-wrap">
+            <h1>About who's making tea</h1>
+            <p>Hi! I'm Shib and I built this site to use in my workplace so we could fairly decide who's turn it is to make a round of tea!</p>
+            <p>We've been using it for 2 years now with over 1000 successful tea runs!</p>
+            <p>I'm now happy enough with it to launch it into the wild! I hope you enjoy it!</p>
+            <p>Follow me if you like:</p>
+            <p>
+                <a href="https://twitter.com/shibbles_" target="_blank">@shibbles_</a><br>
+                <a href="https://twitter.com/whosmakingtea">@whosmakingtea</a>
+            </p>
+            <p>Thanks! Have a good cuppa!</p>
+        </div>
+        <div class="button-wrap">
+            <button class="butt-general butt-dismiss" (click)="dismissPopup()">Cool beans!</button>
+        </div>
+    </div>
+
+</section>
