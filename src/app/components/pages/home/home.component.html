@@ -15,3 +15,5 @@
     </div>
     
 </section>
+<button class="butt-about" (click)="showPopup()">?</button>
+<aboutpop [showPopup]="showAboutPopup" (closePopup)="closePopup($event)"></aboutpop>

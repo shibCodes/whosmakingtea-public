@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { ItemToDelete } from 'src/app/core/ItemToDelete';
 import { List } from 'src/app/core/List';

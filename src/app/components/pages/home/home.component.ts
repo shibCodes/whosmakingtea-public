@@ -14,6 +14,7 @@ export class HomeComponent implements AfterViewInit {
 	@ViewChild(PickerComponent) picker: PickerComponent;
 	hideTagline: boolean = false;
 	hidePage: boolean = false;
+	showAboutPopup: boolean = false;
 
 	constructor(
 		private threeService: ThreeService
@@ -34,6 +35,15 @@ export class HomeComponent implements AfterViewInit {
 
 	onHidePage(hidePage) {
 		this.hidePage = hidePage;
+	}
+
+	showPopup() {
+		console.log("show!");
+		this.showAboutPopup = true;
+	}
+
+	closePopup(event) {
+		this.showAboutPopup = event;
 	}
 
 	private checkIsMobile() {

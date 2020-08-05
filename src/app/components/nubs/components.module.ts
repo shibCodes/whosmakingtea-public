@@ -8,6 +8,7 @@ import { SideNavComponent } from './sidenav/sidenav.component';
 import { UserListComponent } from './userlist/userlist.component';
 import { PopupComponent } from './popup/popup.component';
 import { UserComponent } from './user/user.component';
+import { AboutPopComponent } from './aboutpop/aboutpop.component';
 import { IconsModule } from '../../icons/icons.module';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -26,7 +27,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         SideNavComponent,
         UserListComponent,
         PopupComponent,
-        UserComponent
+        UserComponent,
+        AboutPopComponent
     ],
     imports: [
         CommonModule,
@@ -47,7 +49,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         SideNavComponent,
         UserListComponent,
         PopupComponent,
-        UserComponent
+        UserComponent,
+        AboutPopComponent
     ]
 })
 
